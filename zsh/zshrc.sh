@@ -1,6 +1,7 @@
 # -------------------------- oh-my-zsh config -------------------------------- #
 
-export ZSH="${HOME}/.dotfiles/zsh/plugins/oh-my-zsh"
+export ZSH="$HOME/.dotfiles/zsh"
+export OH_MY_ZSH="$ZSH/plugins/oh-my-zsh"
 
 ZSH_THEME="refined"                 # prompt theme
 DISABLE_AUTO_TITLE="true"           # disable auto-setting terminal title
@@ -23,31 +24,31 @@ autoload -U compinit
 
 # source oh-my-zsh plugins
 for plugin ($plugins); do
-    fpath=($ZSH/plugins/$plugin $fpath)
+    fpath=($OH_MY_ZSH/plugins/$plugin $fpath)
 done
 
 compinit
 
-source $ZSH/lib/history.zsh
-source $ZSH/lib/key-bindings.zsh
-source $ZSH/lib/completion.zsh
+source $OH_MY_ZSH/lib/history.zsh
+source $OH_MY_ZSH/lib/key-bindings.zsh
+source $OH_MY_ZSH/lib/completion.zsh
 
-source $ZSH/themes/$ZSH_THEME.zsh-theme
-source ~/dotfiles/zsh/plugins/scm_breeze/scm_breeze.plugin.zsh
-source ~/dotfiles/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $OH_MY_ZSH/themes/$ZSH_THEME.zsh-theme
+source $ZSH/plugins/scm_breeze/scm_breeze.plugin.zsh
+source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
 
 # ---------------------------------------------------------------------------- #
 
 # cd stack
 pushd() {
   if [ $# -eq 0 ]; then
-    DIR="${HOME}"
+    DIR="$HOME"
   else
     DIR="$1"
   fi
-  builtin pushd "${DIR}" > /dev/null
+  builtin pushd "$DIR" > /dev/null
   # dirs
 }
 pushd_builtin() {
@@ -86,7 +87,7 @@ alias ls="ls -AFG"       # Display all files, include hidden ones
 alias ll="ls -AFGl"
 
 # fuck ups
-eval "$(thefuck --alias)"
+# eval "$(thefuck --alias)"
 alias please='sudo $(fc -ln -1)'
 
 alias oldvim="/usr/bin/vim"
