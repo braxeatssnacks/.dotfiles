@@ -13,7 +13,7 @@ function prompt_install {
     elif [ -x "$(command -v apt-get)" ]; then  # ubuntu
       apt-get install $1
     else
-			echo "Cannot determine default package manager! Please install $1 manually & run this script again ..."
+      echo "Cannot determine default package manager! Please install $1 manually & run this script again ..."
     fi
   fi
 }
@@ -87,7 +87,7 @@ else
   set +o noclobber
 fi
 
-# effective symbolic link
+# effective symbolic links
 printf "source '$HOME/.dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
 printf "source-file $HOME/.dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 printf "so $HOME/.dotfiles/vim/init.vim" > ~/.vimrc
