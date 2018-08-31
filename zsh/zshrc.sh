@@ -119,7 +119,8 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 
-# make ls show cool colors
+# visual
+autoload -U colors && colors
 export CLICOLOR=1
 export LSCOLORS="gxBxhxDxfxhxhxhxhxcxcx"
 
