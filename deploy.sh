@@ -14,6 +14,7 @@ function prompt_install {
       apt-get install $1
     else
       echo "Cannot determine default package manager! Please install $1 manually & run this script again ..."
+      # TODO suggest package manager based on os
     fi
   fi
 }
@@ -79,15 +80,17 @@ stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
+  # TODO: check if files exist
 	mv ~/.zshrc ~/.zshrc.backup
 	mv ~/.tmux.conf ~/.tmux.conf.backup
 	mv ~/.vimrc ~/.vimrc.backup
+  # TODO: neovim link
 else
 	echo -e "\nWho cares about old stuff right?"
   set +o noclobber
 fi
 
-# effective symbolic links
+# effective symbolic links -> TODO: real symbolic links
 printf "source '$HOME/.dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
 printf "source-file $HOME/.dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 printf "so $HOME/.dotfiles/vim/init.vim" > ~/.vimrc
