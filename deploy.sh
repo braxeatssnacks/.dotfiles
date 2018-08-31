@@ -93,5 +93,5 @@ printf "source-file $HOME/.dotfiles/tmux/tmux.conf" > ~/.tmux.conf
 printf "so $HOME/.dotfiles/vim/init.vim" > ~/.vimrc
 
 echo
-echo "Please log out and log back in for default shell to be initialized.
+echo "Please log out and log back in for default shell to be initialized."
 
