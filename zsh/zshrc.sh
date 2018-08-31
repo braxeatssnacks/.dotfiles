@@ -17,7 +17,6 @@ plugins=(
   ruby
   fasd
   fancy-ctrl-z
-  zsh-syntax-highlighting
 )
 
 autoload -U compinit
