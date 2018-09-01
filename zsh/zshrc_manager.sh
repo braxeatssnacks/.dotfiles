@@ -6,8 +6,8 @@
 # fi
 
 # implicit update of submodules
-cd ~/.dotfiles
-git pull -q
-git submodule update --init --recursive -q
+(cd ~/.dotfiles && \
+git pull -q && \
+git submodule update --init --recursive -q)
 
 source ~/.dotfiles/zsh/zshrc.sh
