@@ -37,8 +37,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
-  " file search
-  Plug 'kien/ctrlp.vim'
+  " smart '/' search
+  Plug 'pgdouyon/vim-evanesco'
+
+  " fuzzy file search
+  " Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
 
   " nerdtree
   Plug 'scrooloose/nerdtree'
@@ -55,6 +58,9 @@ call plug#begin('~/.vim/plugged')
 
   " supertab (for autocompletion)
   Plug 'ervandew/supertab'
+
+  " ruby
+  Plug 'vim-ruby/vim-ruby'
 
 call plug#end()
 
@@ -119,6 +125,8 @@ endif
 
 """""""""""""""""""""""" CONFIGS
 
+" safety first
+set nocompatible
 " make redraw quick
 set ttyfast
 " enable mouse!
@@ -129,12 +137,15 @@ set number
 set scrolloff=1
 " copy+paste
 set clipboard=unnamed
-" ignore case when searching
+" ignore case when searching except when search includes uppercase
 set ignorecase
+set smartcase
 " detect when file is changed
 set autoread
 " ignore
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,.DS_Store
+" allow unsaved buffers to go into the background
+set hidden
 
 " don't clutter cwd with backup and swap files
 set backupdir^=~/.vim/.backup
@@ -175,11 +186,15 @@ set splitright
 
 " colors in this bitch
 syntax on
-highlight LineNr ctermfg=240
+highlight LineNr ctermfg=black
+highlight Comment ctermfg=grey
 
 " cursor
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175 " terminal cursor is red
-highlight TermCursor ctermfg=red guifg=red
+set cursorline
+highlight CursorLine cterm=NONE
+highlight Visual cterm=NONE ctermbg=black ctermfg=blue
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
+highlight TermCursor ctermfg=red guifg=red " terminal cursor is red
 
 " automatic commands run on sys task
 augroup sys_tasks
@@ -214,6 +229,10 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 " search for word under the cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
+" open file path in a split
+nnoremap vgf <C-W>v<C-W>lgf
+nnoremap sgf <C-W>s<C-W>jgf
+
 " toggle directory view sidebar
 map <C-n> :NERDTreeToggle<CR>
 
@@ -234,7 +253,6 @@ if has("gui_macvim")
   let macvim_skip_cmd_opt_movement=1
   " visual defualts
   set guioptions=egmt
-  set cursorline
   set antialias
   set fuoptions=maxvert,maxhorz
 endif
