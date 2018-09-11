@@ -135,3 +135,4 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 # python virtual environment
 # -- "workon" : switch environments
 # -- "mkvirtualenv" : create new environment
+

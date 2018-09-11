@@ -11,3 +11,5 @@ git pull -q && \
 git submodule update --init --recursive -q)
 
 source ~/.dotfiles/zsh/zshrc.sh
+# TODO: env conditional
+source ~/.dotfiles/zsh/work_aliases.sh

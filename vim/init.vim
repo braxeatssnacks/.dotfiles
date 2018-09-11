@@ -20,6 +20,7 @@ call plug#begin('~/.vim/plugged')
 
   " autoclose
   Plug 'townk/vim-autoclose'
+  Plug 'tpope/vim-endwise'
 
   " commenting
   Plug 'tomtom/tcomment_vim'
@@ -41,7 +42,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'pgdouyon/vim-evanesco'
 
   " fuzzy file search
-  " Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
 
   " nerdtree
   Plug 'scrooloose/nerdtree'
@@ -49,6 +50,7 @@ call plug#begin('~/.vim/plugged')
   " autocompletion
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'fishbullet/deoplete-ruby'
   else
     silent !pip3 install neovim
     Plug 'Shougo/deoplete.nvim'
@@ -62,12 +64,19 @@ call plug#begin('~/.vim/plugged')
   " ruby
   Plug 'vim-ruby/vim-ruby'
 
+  " javascript
+  Plug 'ternjs/tern_for_vim'
+  Plug 'pangloss/vim-javascript'
+  Plug 'mxw/vim-jsx'
+  Plug 'moll/vim-node'
+
 call plug#end()
 
 " allow autocompletion
 let g:deoplete#enable_at_startup=1
 " Enter maps to completion
 let g:SuperTabCrMapping = 1
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.php,*.jsx"
@@ -122,6 +131,11 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
+" tern
+augroup tern_js_config
+  au!
+  au CompleteDone * pclose
+augroup END
 
 """""""""""""""""""""""" CONFIGS
 
@@ -207,6 +221,9 @@ augroup END
 
 """""""""""""""""""""""" MACROS + REMAPS
 
+" leader key
+let g:mapleader = "\<SPACE>"
+
 " vertical split quick open/close
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> qq <C-w>q
@@ -220,8 +237,14 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " buffer switches
-nnoremap <Tab> :bnext<CR>
-nnoremap <S-Tab> :bprevious<CR>
+nnoremap <Tab> :bprevious<CR>
+nnoremap <S-Tab> :bnext<CR>
+" open buffers
+nnoremap <leader>bb :Buffers<CR>
+" buffer kill
+nnoremap <leader>bk :bprevious <BAR> bdelete #<CR>
+" close all other buffers
+nnoremap <leader>bo :BufOnly<CR>
 
 " press spacebar to remove highlight from current search
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
