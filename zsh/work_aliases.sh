@@ -1,4 +1,5 @@
 # work specific config
+# s/o to david
 function nerd-dropkick {
   tmux send-keys -t 2 "npm run start-dev" Enter
   tmux send-keys -t 1 "npm run dev" Enter
@@ -49,4 +50,5 @@ alias discourse-rails-errors="discourse-log rails.err"
 alias discourse-nginx-access="discourse-log discourse-access.log"
 alias discourse-nginx-errors="discourse-log discourse-error.log"
 
+# TODO if exists
 source ~/.bin/tmuxinator.zsh
