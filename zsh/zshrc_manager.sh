@@ -18,4 +18,4 @@ if [ -n $WORK ]; then
   source "$DOTFILES/zsh/work_aliases.sh"
 fi
 
-source "$DOTFILES/zsh/plugins/tmuxinator/bin/tmuxinator.zsh"
+source "$DOTFILES/tmux/tmuxinator/bin/tmuxinator.zsh"

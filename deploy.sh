@@ -107,7 +107,7 @@ fi
 
 ln -s "$HOME/.dotfiles/zsh/zshrc_manager.sh" "$HOME/.zshrc"
 ln -s "$HOME/.dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
-ln -s "$HOM/.dotfiles/tmux/tmuxinator" "$HOME/.tmuxinator"
+ln -s "$HOME/.dotfiles/tmux/layouts" "$HOME/.tmuxinator"
 ln -s "$HOME/.dotfiles/vim/init.vim" "$HOME/.vimrc"
 # neovim -> vim
 mkdir -p "$HOME/.config"
