@@ -75,7 +75,7 @@ call plug#end()
 " allow autocompletion
 let g:deoplete#enable_at_startup=1
 " Enter maps to completion
-let g:SuperTabCrMapping = 1
+" let g:SuperTabCrMapping = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags

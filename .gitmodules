@@ -7,3 +7,7 @@
 [submodule "zsh/plugins/oh-my-zsh"]
 	path = zsh/plugins/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "tmux/tmuxinator"]
+	path = tmux/tmuxinator
+	url = https://github.com/tmuxinator/tmuxinator
+	branch = master
