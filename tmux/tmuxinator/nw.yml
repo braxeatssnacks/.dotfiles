@@ -1,0 +1,82 @@
+# ~/.tmuxinator/nw.yml
+
+name: NW
+root: /srv/nerdwallet/
+pre_window: export WORK=true
+
+windows:
+  - landing-page-client:
+      layout: main-vertical
+      root: /srv/nerdwallet/landing-page-client/
+      panes:
+        - editor:
+          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          - npm ci
+          - nerd-dropkick
+          - clear; glg
+        - client:
+          - clear; echo "waiting for npm..."
+        - server:
+          - clear; echo "waiting for npm..."
+
+  - nw-discourse:
+      layout: main-horizontal
+      root: /srv/nerdwallet/nw-discourse/
+      panes:
+        - editor:
+          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          - clear; glg
+        - docker:
+          - gash && gco master && gf && gpl && gco - && grb master && gashp
+          - ./dev.sh -p nw-comments
+          - cd /home/app
+          - indy supervisor --nodaemon start
+        - sidekiq:
+          - clear; echo "discourse-sidekiq"
+        - logs:
+          - clear; echo "discourse-rails-logs"
+        - errors:
+          - clear; echo "discourse-rails-errors"
+  - nwjs-user-content:
+      layout: main-vertical
+      root: /srv/nerdwallet/nwjs-user-content/
+      panes:
+        - editor:
+          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          - clear; glg
+        - watch:
+          - npm run build-watch
+        - storybook:
+          - npm run storybook
+
+  - react-components:
+    layout: main-vertical
+    root: /srv/nerdwallet/react-components/
+    panes:
+      - editor:
+          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          - clear; glg
+      - storybook:
+        - clear; echo "npm run start || npm run storybook -- components/target-component"
+
+  - front-page:
+      layout: main-horizontal
+      root: /srv/nerdwallet/front-page/
+      panes:
+        - editor:
+          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          - npm ci
+          - nerd-dropkick
+          - clear; glg
+        - client:
+          - clear; echo "waiting for npm"
+        - server:
+          - clear; echo "waiting for npm"
+
+  - scratch:
+      root: /tmp/
+      panes:
+        - scratch:
+          - mkdir -p /tmp/scratch
+          - cd /tmp/scratch
+

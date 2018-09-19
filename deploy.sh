@@ -13,7 +13,7 @@ function prompt_install {
     elif [ -x "$(command -v apt-get)" ]; then  # ubuntu
       apt-get install $1
     else
-      echo "Cannot determine default package manager! Please install $1 manually & run this script again ..."
+      echo "Sorry, I can't determine default package manager! Please install $1 manually & run this script again."
       # TODO suggest package manager based on os
     fi
   fi
@@ -24,15 +24,15 @@ function check_for_software {
   if ! [ -x "$(command -v $1)" ]; then
     prompt_install $1
   else
-    echo "$1 is already installed"
+    echo "$1 is already installed."
   fi
 }
 
 function check_default_shell {
   if [ -z "${SHELL##*zsh*}" ] ;then
-    echo "Default shell is zsh."
+    echo "Good looks - your default shell is zsh."
 	else
-		echo -n "Default shell is not zsh. Do you want to chsh -s \$(which zsh)? (y/n)"
+		echo -n "I noticed that your default shell is not zsh. Do you want to chsh -s \$(which zsh)? (y/n)"
 		old_stty_cfg=$(stty -g)
 		stty raw -echo
 		answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
@@ -40,13 +40,13 @@ function check_default_shell {
 		if echo "$answer" | grep -iq "^y" ;then
 			chsh -s $(which zsh)
 		else
-			echo "Warning: Your configuration won't work properly. zsh is required for deploy ..."
+			echo "Look man, I'm not going to tell you what to do or anything but it's unlikely your configuration will work properly without zsh."
 		fi
 	fi
 }
 
 # let's get to it
-echo "This script will check for zsh, (neo-)vim, & tmux installations, and attempt to install them if they do not exist ..."
+echo "Let's check for zsh, (neo-)vim, tmux(-inator), ruby, & python installations, and attempt to install them if they do not exist ..."
 
 echo "Can ya dig it sucka? (y/n)"
 old_stty_cfg=$(stty -g)
@@ -56,7 +56,7 @@ stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
 	echo
 else
-	echo "Aborting, nothing was changed ..."
+	echo "Aborting ..."
 	exit 0
 fi
 
@@ -70,6 +70,9 @@ check_for_software python
 echo
 check_for_software nvim
 echo
+check_for_software ruby
+gem install tmuxinator >> /dev/null 2>&1
+echo
 
 check_default_shell
 
@@ -80,21 +83,38 @@ stty raw -echo
 answer=$( while ! head -c 1 | grep -i '[ny]' ;do true ;done )
 stty $old_stty_cfg
 if echo "$answer" | grep -iq "^y" ;then
-  # TODO: check if files exist
-	mv ~/.zshrc ~/.zshrc.backup
-	mv ~/.tmux.conf ~/.tmux.conf.backup
-	mv ~/.vimrc ~/.vimrc.backup
-  # TODO: neovim link
+  echo
+  echo "Safety first!"
+  if [ -e ~/.zshrc ]; then
+    mv ~/.zshrc ~/.zshrc.backup && echo "~/.zshrc -> ~/.zshrc.backup"
+  fi
+  if [ -e ~/.tumx.conf ]; then
+    mv ~/.tmux.conf ~/.tmux.conf.backup && echo "~/.tmux.conf -> ~/.tmux.conf.backup"
+  fi
+  if [ -e ~/.tmux.conf ]; then
+    mv ~/.vimrc ~/.vimrc.backup && echo "~/.vimrc -> ~/.vimrc.backup"
+  fi
 else
-	echo -e "\nWho cares about old stuff right?"
-  set +o noclobber
+  echo
+	echo -e "Onwards and upwards! Never back! I respect your recklessness. Let's hope we don't regret it..."
+  rm -rf ~/.zshrc
+  rm -rf ~/.tmux.conf
+  rm -rf ~/.vimrc
+  rm -rf ~/.vim/init.vim
+  rm -rf ~/.config/nvim
+  rm -rf ~/.tmuxinator
 fi
 
-# effective symbolic links -> TODO: real symbolic links
-printf "source '$HOME/.dotfiles/zsh/zshrc_manager.sh'" > ~/.zshrc
-printf "source-file $HOME/.dotfiles/tmux/tmux.conf" > ~/.tmux.conf
-printf "so $HOME/.dotfiles/vim/init.vim" > ~/.vimrc
+ln -s "$HOME/.dotfiles/zsh/zshrc_manager.sh" "$HOME/.zshrc"
+ln -s "$HOME/.dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
+ln -s "$HOM/.dotfiles/tmux/tmuxinator" "$HOME/.tmuxinator"
+ln -s "$HOME/.dotfiles/vim/init.vim" "$HOME/.vimrc"
+# neovim -> vim
+mkdir -p "$HOME/.config"
+mkdir -p "$HOME/.vim"
+ln -s "$HOME/.vimrc" "$HOME/.vim/init.vim"
+ln -s "$HOME/.vim" "$HOME/.config/nvim"
 
 echo
-echo "Please log out and log back in for default shell to be initialized."
+echo "Looks like we're all set! Reinitialize your shell to see the changes!"
 
