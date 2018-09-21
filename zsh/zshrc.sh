@@ -1,6 +1,6 @@
 # -------------------------- oh-my-zsh config -------------------------------- #
 
-export ZSH="$HOME/.dotfiles/zsh"
+export ZSH="$DOTFILES/zsh"
 export OH_MY_ZSH="$ZSH/plugins/oh-my-zsh"
 
 ZSH_THEME="refined"                 # prompt theme
@@ -41,27 +41,9 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 # ---------------------------------------------------------------------------- #
 
 # cd stack
-pushd() {
-  if [ $# -eq 0 ]; then
-    DIR="$HOME"
-  else
-    DIR="$1"
-  fi
-  builtin pushd "$DIR" > /dev/null
-  # dirs
-}
-pushd_builtin() {
-  builtin pushd > /dev/null
-  # dirs
-}
-popd() {
-  builtin popd > /dev/null
-  # dirs
-}
-
-alias cd='pushd'
-alias back='popd'
-alias flip='pushd_builtin'
+setopt AUTO_PUSHD
+# optional cd
+setopt AUTO_CD
 
 # fasd
 eval "$(fasd --init auto)"
@@ -74,8 +56,6 @@ alias sf='fasd -sif'     # interactive file selection
 alias z='fasd_cd -d'     # cd, same functionality as j in autojump
 alias zz='fasd_cd -d -i' # cd with interactive selection
 export _FASD_MAX=1000
-
-setopt auto_cd           # cd has always been optional
 
 # safety first
 set -o noclobber         # Do not overwrite files via '>'

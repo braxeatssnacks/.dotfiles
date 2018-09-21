@@ -2,7 +2,7 @@
 
 name: NW
 root: /srv/nerdwallet/
-pre_window: export WORK=true
+pre_window: export WORK="nerdwallet"
 
 windows:
   - landing-page-client:

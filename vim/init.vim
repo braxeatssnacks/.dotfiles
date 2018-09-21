@@ -64,7 +64,7 @@ call plug#begin('~/.vim/plugged')
   " ruby
   Plug 'vim-ruby/vim-ruby'
 
-  " javascript
+  " javascript - TODO: npm i tern if not installed
   Plug 'ternjs/tern_for_vim'
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
