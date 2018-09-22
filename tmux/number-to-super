@@ -1,0 +1,5 @@
+#!/bin/bash
+
+NUMBERS=(⁰ ¹ ² ³ ⁴ ⁵ ⁶ ⁷ ⁸ ⁹)
+echo ${NUMBERS[$1]}
+

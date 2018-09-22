@@ -81,7 +81,7 @@ set -o vi
 bindkey "^[QA" up-line-or-beginning-search
 bindkey "^[QB" down-line-or-beginning-search
 autoload -Uz edit-command-line
-bindkey -M vicmd 'v' edit-command-line
+bindkey -M vicmd 'V' edit-command-line
 
 # show when in normal mode
 setopt PROMPT_SUBST

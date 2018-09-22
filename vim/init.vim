@@ -64,11 +64,14 @@ call plug#begin('~/.vim/plugged')
   " ruby
   Plug 'vim-ruby/vim-ruby'
 
-  " javascript - TODO: npm i tern if not installed
-  Plug 'ternjs/tern_for_vim'
+  " javascript
+  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'moll/vim-node'
+
+  " tmux
+  Plug 'christoomey/vim-tmux-navigator'
 
 call plug#end()
 
@@ -80,6 +83,10 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.php,*.jsx"
+
+" tmux
+let g:tmux_navigator_save_on_switch = 1
+let g:tmux_navigator_disable_when_zoomed = 1
 
 " ctrl-P configs - silver searcher override later
 let g:ctrlp_map = '<c-p>'
@@ -200,7 +207,7 @@ set splitright
 
 " colors in this bitch
 syntax on
-highlight LineNr ctermfg=black
+highlight LineNr ctermfg=yellow
 highlight Comment ctermfg=grey
 
 " cursor
