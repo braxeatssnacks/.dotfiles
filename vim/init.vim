@@ -206,8 +206,8 @@ augroup filetype_configs
 augroup END
 
 " split panes lookin nice
-set fillchars+=vert:\$
 hi VertSplit cterm=NONE ctermbg=NONE ctermfg=NONE
+set fillchars=vert:\ 
 set splitbelow
 set splitright
 
@@ -223,10 +223,18 @@ highlight Visual cterm=NONE ctermbg=black ctermfg=blue
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 highlight TermCursor ctermfg=red guifg=red " terminal cursor is red
 
+fun! StripTrailingWhitespace()
+  if exists('b:noStripWhitespace')
+    return
+  endif
+  %s/\s\+$//e
+endfun
+
 " automatic commands run on sys task
 augroup sys_tasks
-  " remove trailing space on save
-  autocmd BufWritePre * :%s/\s\+$//e
+  " remove trailing space on save unless b:noStripWhitespace
+  autocmd FileType vim let b:noStripWhitespace=1
+  autocmd BufWritePre * call StripTrailingWhitespace()
   " resize splits on window resize
   autocmd VimResized * wincmd =
 augroup END
