@@ -11,6 +11,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
+
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
 set runtimepath^=~/.opam/system/share/ocp-indent/vim
@@ -43,6 +44,9 @@ call plug#begin('~/.vim/plugged')
 
   " fuzzy file search
   Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
+
+  " buffer manipulation
+  Plug 'schickling/vim-bufonly'
 
   " nerdtree
   Plug 'scrooloose/nerdtree'
@@ -102,7 +106,7 @@ let g:ctrlp_custom_ignore = {
 " nerdtree configs
 let NERDTreeRespectWildIgnore=1
 augroup nerdtree_configs
-  autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
@@ -144,8 +148,8 @@ augroup tern_js_config
   au CompleteDone * pclose
 augroup END
 
-"""""""""""""""""""""""" CONFIGS
 
+"""""""""""""""""""""""" CONFIGS
 " safety first
 set nocompatible
 " make redraw quick
@@ -164,7 +168,9 @@ set smartcase
 " detect when file is changed
 set autoread
 " ignore
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,.DS_Store
+set wildignore+=.DS_Store
+set wildignore+=*.bmp,*.png,*.jpg,*.jpeg,*.gif
+set wildignore+=*.so,*.swp,*.zip,*.bz2
 " allow unsaved buffers to go into the background
 set hidden
 
@@ -227,7 +233,6 @@ augroup END
 
 
 """""""""""""""""""""""" MACROS + REMAPS
-
 " leader key
 let g:mapleader = "\<SPACE>"
 
