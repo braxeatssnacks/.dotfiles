@@ -50,3 +50,4 @@ alias discourse-rails-errors="discourse-log rails.err"
 alias discourse-nginx-access="discourse-log discourse-access.log"
 alias discourse-nginx-errors="discourse-log discourse-error.log"
 
+export AWS_PROFILE=nwdev

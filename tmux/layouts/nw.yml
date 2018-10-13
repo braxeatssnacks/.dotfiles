@@ -10,7 +10,7 @@ windows:
       root: /srv/nerdwallet/landing-page-client/
       panes:
         - editor:
-          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          # - gpl -q && gash && gco master && gf && gpl && gco - && gashp
           - npm ci
           - nerd-dropkick
           - clear; glg
@@ -24,10 +24,9 @@ windows:
       root: /srv/nerdwallet/nw-discourse/
       panes:
         - editor:
-          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
           - clear; glg
         - docker:
-          - gash && gco master && gf && gpl && gco - && grb master && gashp
+          # - gash && gco master && gf && gpl -q && gco - && gashp
           - ./dev.sh -p nw-comments
           - cd /home/app
           - indy supervisor --nodaemon start
@@ -42,7 +41,7 @@ windows:
       root: /srv/nerdwallet/nwjs-user-content/
       panes:
         - editor:
-          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          # - gash && gpl -q && gco master && gf && gpl && gco - && gashp
           - clear; glg
         - watch:
           - npm run build-watch
@@ -54,7 +53,7 @@ windows:
     root: /srv/nerdwallet/react-components/
     panes:
       - editor:
-          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          # - gpl -q && gash && gco master && gf && gpl && gco - && gashp
           - clear; glg
       - storybook:
         - clear; echo "npm run start || npm run storybook -- components/target-component"
@@ -64,7 +63,7 @@ windows:
       root: /srv/nerdwallet/front-page/
       panes:
         - editor:
-          - gpl -q && gash && gco master && gf && gpl && gco - && grb master && gashp
+          # - gpl -q && gash && gco master && gf && gpl && gco - && gashp
           - npm ci
           - nerd-dropkick
           - clear; glg
