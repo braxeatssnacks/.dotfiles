@@ -37,6 +37,9 @@ call plug#begin('~/.vim/plugged')
   " git gutter
   Plug 'airblade/vim-gitgutter'
 
+  " git fugitive
+  Plug 'tpope/vim-fugitive'
+
   " byobu-esque
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
@@ -281,8 +284,6 @@ nnoremap <C-H> <C-W><C-H>
 " buffer switches
 nnoremap <Tab> :bprevious<CR>
 nnoremap <S-Tab> :bnext<CR>
-" open buffers
-nnoremap <leader>bb :Buffers<CR>
 " buffer kill
 nnoremap <leader>bk :bprevious <BAR> bdelete #<CR>
 " close all other buffers
@@ -300,6 +301,10 @@ nnoremap \ :Ag -i<SPACE>
 " open file path in a split
 nnoremap vgf <C-W>v<C-W>lgf
 nnoremap sgf <C-W>s<C-W>jgf
+
+" scm_breeze git w/ fugitive
+nnoremap gs :Gstatus<CR>
+nnoremap gbl :Gblame<CR>
 
 " toggle directory view sidebar
 map <C-n> :NERDTreeToggle<CR>
