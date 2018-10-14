@@ -79,6 +79,9 @@ call plug#begin('~/.vim/plugged')
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
 
+  " buffer deletion w/ layout preservation
+  Plug 'qpkorr/vim-bufkill'
+
   " linting
   " Plug 'w0rp/ale'
 
@@ -291,8 +294,8 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 " search for word under the cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " bind "\" and Ag to grep -> ag shortcut from project root
-command! -nargs=1 ag execute "Ack! <args> " . Find_git_root()
-nnoremap \ :ag -i<SPACE>
+command! -nargs=1 Ag execute "Ack! <args> " . Find_git_root()
+nnoremap \ :Ag -i<SPACE>
 
 " open file path in a split
 nnoremap vgf <C-W>v<C-W>lgf
