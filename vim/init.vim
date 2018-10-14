@@ -11,6 +11,9 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
+function! Find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
 
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
@@ -43,6 +46,9 @@ call plug#begin('~/.vim/plugged')
 
   " fuzzy file search
   Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
+
+  " word search
+  Plug 'mileszs/ack.vim'
 
   " buffer manipulation
   Plug 'schickling/vim-bufonly'
@@ -140,6 +146,8 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   " fast enough to not cache
   let g:ctrlp_use_caching = 0
+  " configure ack.vim to use ag
+  let g:ackprg = 'ag --vimgrep --smart-case'                                                   
 endif
 
 " tern
@@ -282,6 +290,9 @@ nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 " search for word under the cursor
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+" bind "\" and Ag to grep -> ag shortcut from project root
+command! -nargs=1 ag execute "Ack! <args> " . Find_git_root()
+nnoremap \ :ag -i<SPACE>
 
 " open file path in a split
 nnoremap vgf <C-W>v<C-W>lgf
