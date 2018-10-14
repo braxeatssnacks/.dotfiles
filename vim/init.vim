@@ -111,13 +111,13 @@ augroup nerdtree_configs
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
 
-" " rainbow parentheses
-" augroup parentheses_configs
-"   autocmd VimEnter * RainbowParenthesesToggle
-"   autocmd Syntax * RainbowParenthesesLoadRound
-"   autocmd Syntax * RainbowParenthesesLoadSquare
-"   autocmd Syntax * RainbowParenthesesLoadBraces
-" augroup END
+" rainbow parentheses
+augroup parentheses_configs
+  autocmd VimEnter * RainbowParenthesesToggle
+  autocmd Syntax * RainbowParenthesesLoadRound
+  autocmd Syntax * RainbowParenthesesLoadSquare
+  autocmd Syntax * RainbowParenthesesLoadBraces
+augroup END
 
 " byobu style
 let g:airline_theme="monochrome"
@@ -218,7 +218,7 @@ augroup END
 
 " split panes lookin nice
 hi VertSplit cterm=NONE ctermbg=NONE ctermfg=NONE
-set fillchars=vert:\
+set fillchars=vert:\ 
 set splitbelow
 set splitright
 
