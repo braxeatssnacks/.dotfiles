@@ -21,7 +21,6 @@ call plug#begin('~/.vim/plugged')
 
   " autoclose
   Plug 'townk/vim-autoclose'
-  Plug 'tpope/vim-endwise'
 
   " commenting
   Plug 'tomtom/tcomment_vim'
@@ -51,6 +50,9 @@ call plug#begin('~/.vim/plugged')
   " nerdtree
   Plug 'scrooloose/nerdtree'
 
+  " supertab (for autocompletion)
+  Plug 'ervandew/supertab'
+
   " autocompletion
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -62,12 +64,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  " supertab (for autocompletion)
-  Plug 'ervandew/supertab'
-
-  " ruby
-  Plug 'vim-ruby/vim-ruby'
-
   " javascript
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
   Plug 'pangloss/vim-javascript'
@@ -78,18 +74,19 @@ call plug#begin('~/.vim/plugged')
   Plug 'christoomey/vim-tmux-navigator'
 
   " linting
-  Plug 'w0rp/ale'
+  " Plug 'w0rp/ale'
 
 call plug#end()
 
 " allow autocompletion
 let g:deoplete#enable_at_startup=1
 " Enter maps to completion
-" let g:SuperTabCrMapping = 1
+let g:SuperTabCrMapping = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.php,*.jsx"
+let g:closetag_xhtml_filenames = "*.xhtml,*.jsx"
 
 " tmux
 let g:tmux_navigator_save_on_switch = 1
@@ -114,13 +111,13 @@ augroup nerdtree_configs
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
 
-" rainbow parentheses
-augroup parentheses_configs
-  autocmd VimEnter * RainbowParenthesesToggle
-  autocmd Syntax * RainbowParenthesesLoadRound
-  autocmd Syntax * RainbowParenthesesLoadSquare
-  autocmd Syntax * RainbowParenthesesLoadBraces
-augroup END
+" " rainbow parentheses
+" augroup parentheses_configs
+"   autocmd VimEnter * RainbowParenthesesToggle
+"   autocmd Syntax * RainbowParenthesesLoadRound
+"   autocmd Syntax * RainbowParenthesesLoadSquare
+"   autocmd Syntax * RainbowParenthesesLoadBraces
+" augroup END
 
 " byobu style
 let g:airline_theme="monochrome"
@@ -151,17 +148,17 @@ augroup tern_js_config
   au CompleteDone * pclose
 augroup END
 
-" linting & formatting
-let g:ale_fix_on_save = 1
-let g:ale_set_highlights = 0
-let g:ale_linters_explicit = 1
-let g:airline#extensions#ale#enabled = 1
-let g:ale_fixers = { 'javascript': ['eslint'] }
-" let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
-" let g:ale_sign_error = '😡'
-" let g:ale_sign_warning = '🤔'
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
+" " linting & formatting
+" let g:ale_fix_on_save = 1
+" let g:ale_set_highlights = 0
+" let g:ale_linters_explicit = 1
+" let g:airline#extensions#ale#enabled = 1
+" let g:ale_fixers = { 'javascript': ['eslint'] }
+" " let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
+" " let g:ale_sign_error = '😡'
+" " let g:ale_sign_warning = '🤔'
+" " highlight clear ALEErrorSign
+" " highlight clear ALEWarningSign
 
 """""""""""""""""""""""" CONFIGS
 " safety first
@@ -221,7 +218,7 @@ augroup END
 
 " split panes lookin nice
 hi VertSplit cterm=NONE ctermbg=NONE ctermfg=NONE
-set fillchars=vert:\ 
+set fillchars=vert:\
 set splitbelow
 set splitright
 
@@ -313,4 +310,3 @@ if has("gui_macvim")
   set antialias
   set fuoptions=maxvert,maxhorz
 endif
-
