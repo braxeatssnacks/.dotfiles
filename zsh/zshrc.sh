@@ -118,3 +118,7 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 # -- "workon" : switch environments
 # -- "mkvirtualenv" : create new environment
 
+# work hack
+if [ -d "$HOME/.nvm/versions/node/v6.14.4" ]; then
+  export PATH="$HOME/.nvm/versions/node/v6.14.4/bin:$PATH"
+fi
