@@ -11,9 +11,37 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
-function! Find_git_root()
+" project root 
+function! FindGitRoot()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
+
+" file cleanup
+function! StripTrailingWhitespace()
+  if exists('b:noStripWhitespace')
+    return
+  endif
+  %s/\s\+$//e
+endfunction
+
+" toggle window maximize w/o tabs
+function! MaximizeToggle()
+  if exists("s:maximizeSession")
+    exec "source " . s:maximizeSession
+    call delete(s:maximizeSession)
+    unlet s:maximizeSession
+    let &hidden=s:maximizeHiddenSave
+    unlet s:maximizeHiddenSave
+  else
+    let s:maximizeHiddenSave = &hidden
+    let s:maximizeSession = tempname()
+    set hidden
+    exec "mksession! " . s:maximizeSession
+    only
+  endif
+endfunction
+"TODO: indicate zoom in airline
+
 
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
@@ -86,7 +114,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'qpkorr/vim-bufkill'
 
   " linting
-  " Plug 'w0rp/ale'
+  Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -162,17 +190,18 @@ augroup tern_js_config
   au CompleteDone * pclose
 augroup END
 
-" " linting & formatting
-" let g:ale_fix_on_save = 1
-" let g:ale_set_highlights = 0
-" let g:ale_linters_explicit = 1
-" let g:airline#extensions#ale#enabled = 1
-" let g:ale_fixers = { 'javascript': ['eslint'] }
-" " let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
-" " let g:ale_sign_error = '😡'
-" " let g:ale_sign_warning = '🤔'
-" " highlight clear ALEErrorSign
-" " highlight clear ALEWarningSign
+" linting & formatting
+let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_fix_on_save = 1
+let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
+let g:ale_linters_explicit = 1
+let g:ale_set_highlights = 1
+let g:airline#extensions#ale#enabled = 1
+" let g:ale_sign_error = '😡'
+" let g:ale_sign_warning = '🤔'
+" highlight clear ALEErrorSign
+" highlight clear ALEWarningSign
+
 
 """""""""""""""""""""""" CONFIGS
 " safety first
@@ -244,16 +273,16 @@ highlight Comment ctermfg=grey
 " cursor
 set cursorline
 highlight CursorLine cterm=NONE
-highlight Visual cterm=NONE ctermbg=black ctermfg=blue
+highlight Visual cterm=NONE ctermfg=blue ctermbg=black 
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
-highlight TermCursor ctermfg=red guifg=red " terminal cursor is red
+" terminal cursor is red
+highlight TermCursor ctermfg=red 
 
-fun! StripTrailingWhitespace()
-  if exists('b:noStripWhitespace')
-    return
-  endif
-  %s/\s\+$//e
-endfun
+" tabs
+highlight TabLineFill ctermfg=black ctermbg=black
+highlight TabLine ctermfg=grey ctermbg=black
+highlight TabLineSel ctermfg=blue ctermbg=NONE
+highlight Title ctermfg=blue ctermbg=NONE
 
 " automatic commands run on sys task
 augroup sys_tasks
@@ -262,6 +291,8 @@ augroup sys_tasks
   autocmd BufWritePre * call StripTrailingWhitespace()
   " resize splits on window resize
   autocmd VimResized * wincmd =
+  " auto source vimrc changes on save
+  autocmd BufWritePost .vimrc source $MYVIMRC
 augroup END
 
 
@@ -289,13 +320,17 @@ nnoremap <leader>bk :bprevious <BAR> bdelete #<CR>
 " close all other buffers
 nnoremap <leader>bo :BufOnly<CR>
 
+" maximize toggle
+command! Zoom call MaximizeToggle()
+nnoremap zz :Zoom<CR>
+
 " press spacebar to remove highlight from current search
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
-" search for word under the cursor
+" search for word under the cursor from git root
 nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 " bind "\" and Ag to grep -> ag shortcut from project root
-command! -nargs=1 Ag execute "Ack! <args> " . Find_git_root()
+command! -nargs=1 Ag execute "Ack! <args> " . FindGitRoot()
 nnoremap \ :Ag -i<SPACE>
 
 " open file path in a split
@@ -329,3 +364,6 @@ if has("gui_macvim")
   set antialias
   set fuoptions=maxvert,maxhorz
 endif
+
+" for posterity
+nnoremap <leader>vimrc :tabedit $MYVIMRC
