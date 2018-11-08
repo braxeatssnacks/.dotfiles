@@ -24,24 +24,6 @@ function! StripTrailingWhitespace()
   %s/\s\+$//e
 endfunction
 
-" toggle window maximize w/o tabs
-function! MaximizeToggle()
-  if exists("s:maximizeSession")
-    exec "source " . s:maximizeSession
-    call delete(s:maximizeSession)
-    unlet s:maximizeSession
-    let &hidden=s:maximizeHiddenSave
-    unlet s:maximizeHiddenSave
-  else
-    let s:maximizeHiddenSave = &hidden
-    let s:maximizeSession = tempname()
-    set hidden
-    exec "mksession! " . s:maximizeSession
-    only
-  endif
-endfunction
-"TODO: indicate zoom in airline
-
 
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
@@ -160,7 +142,8 @@ augroup parentheses_configs
 augroup END
 
 " byobu style
-let g:airline_theme="monochrome"
+let g:airline_theme='base16'
+let g:airline#extensions#tabline#formatter='jsformatter'
 
 " gitgutter
 highlight clear SignColumn
@@ -191,16 +174,16 @@ augroup tern_js_config
 augroup END
 
 " linting & formatting
-let g:ale_fixers = { 'javascript': ['eslint'] }
+let g:ale_fixers = { 'javascript': ['eslint'], 'ruby': ['rubocop'], 'python': ['autopep8'] }
 let g:ale_fix_on_save = 1
-let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'] }
+let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'], 'python': ['autopep8'] }
 let g:ale_linters_explicit = 1
-let g:ale_set_highlights = 1
+let g:ale_set_highlights = 0
 let g:airline#extensions#ale#enabled = 1
 " let g:ale_sign_error = '😡'
 " let g:ale_sign_warning = '🤔'
-" highlight clear ALEErrorSign
-" highlight clear ALEWarningSign
+highlight clear ALEErrorSign
+highlight clear ALEWarningSign
 
 
 """""""""""""""""""""""" CONFIGS
@@ -321,8 +304,7 @@ nnoremap <leader>bk :bprevious <BAR> bdelete #<CR>
 nnoremap <leader>bo :BufOnly<CR>
 
 " maximize toggle
-command! Zoom call MaximizeToggle()
-nnoremap zz :Zoom<CR>
+nnoremap zz :tabedit %<CR>
 
 " press spacebar to remove highlight from current search
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>

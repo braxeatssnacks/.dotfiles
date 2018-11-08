@@ -85,6 +85,7 @@ bindkey -M vicmd 'V' edit-command-line
 
 # show when in normal mode
 setopt PROMPT_SUBST
+OG_PROMPT="$PROMPT"
 export KEYTIMEOUT=5
 function zle-line-init zle-keymap-select {
   VI_MODE="%{$fg_bold[red]%} [% NORMAL]% %{$reset_color%}"
@@ -99,6 +100,30 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
+# extend prompt to reflect virtualenv if exists
+function virtualenv_info {
+  local virtalenv_basename
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    virtualenv_basname="${VIRTUAL_ENV##*/}"
+  else
+    virtualenv_basname=''
+  fi
+  [[ -n "$virtualenv_basname" ]] && echo "($virtualenv_basname) "
+}
+# hack for deactivate
+function set_virtualenv_info {
+  export PROMPT="%{$fg[green]%}$(virtualenv_info)%{$reset_color%}% $OG_PROMPT"
+}
+
+# time reset
+TMOUT=60
+function TRAPALRM {
+  zle && zle reset-prompt
+}
+
+# hook funcs
+[[ -z $precmd_functions ]] && precmd_functions=()
+precmd_functions=($precmd_functions set_virtualenv_info)
 
 # visual
 autoload -U colors && colors
@@ -119,6 +144,4 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 # -- "mkvirtualenv" : create new environment
 
 # work hack
-if [ -d "$HOME/.nvm/versions/node/v6.14.4" ]; then
-  export PATH="$HOME/.nvm/versions/node/v6.14.4/bin:$PATH"
-fi
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
