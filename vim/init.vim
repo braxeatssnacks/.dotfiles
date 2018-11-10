@@ -24,25 +24,6 @@ function! StripTrailingWhitespace()
   %s/\s\+$//e
 endfunction
 
-" toggle window maximize w/o tabs
-function! MaximizeToggle()
-  if exists("s:maximizeSession")
-    exec "source " . s:maximizeSession
-    call delete(s:maximizeSession)
-    unlet s:maximizeSession
-    let &hidden=s:maximizeHiddenSave
-    unlet s:maximizeHiddenSave
-  else
-    let s:maximizeHiddenSave = &hidden
-    let s:maximizeSession = tempname()
-    set hidden
-    exec "mksession! " . s:maximizeSession
-    only
-  endif
-endfunction
-"TODO: indicate zoom in airline
-
-
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
 set runtimepath^=~/.opam/system/share/ocp-indent/vim
@@ -160,7 +141,8 @@ augroup parentheses_configs
 augroup END
 
 " byobu style
-let g:airline_theme="monochrome"
+let g:airline_theme="base16"
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
 
 " gitgutter
 highlight clear SignColumn
@@ -320,9 +302,8 @@ nnoremap <leader>bk :bprevious <BAR> bdelete #<CR>
 " close all other buffers
 nnoremap <leader>bo :BufOnly<CR>
 
-" maximize toggle
-command! Zoom call MaximizeToggle()
-nnoremap zz :Zoom<CR>
+" zoom into new tab
+nnoremap zz :tabedit %
 
 " press spacebar to remove highlight from current search
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
