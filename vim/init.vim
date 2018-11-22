@@ -4,7 +4,7 @@
 " safety first
 set secure
 
-# TODO: move functions to own file
+" TODO: move functions to own file
 " install vim plug if not installed
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
