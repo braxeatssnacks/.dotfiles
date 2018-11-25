@@ -88,12 +88,13 @@ if echo "$answer" | grep -iq "^y" ;then
   if [ -e ~/.zshrc ]; then
     mv ~/.zshrc ~/.zshrc.backup && echo "~/.zshrc -> ~/.zshrc.backup"
   fi
-  if [ -e ~/.tumx.conf ]; then
+  if [ -e ~/.tmux.conf ]; then
     mv ~/.tmux.conf ~/.tmux.conf.backup && echo "~/.tmux.conf -> ~/.tmux.conf.backup"
   fi
   if [ -e ~/.vimrc ]; then
     mv ~/.vimrc ~/.vimrc.backup && echo "~/.vimrc -> ~/.vimrc.backup"
   fi
+  # TODO: add nvim + tmuxinator check
 else
   echo
 	echo -e "Onwards and upwards! Never back! I respect your recklessness. Let's hope we don't regret it..."
