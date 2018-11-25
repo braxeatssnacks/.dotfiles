@@ -91,7 +91,7 @@ if echo "$answer" | grep -iq "^y" ;then
   if [ -e ~/.tumx.conf ]; then
     mv ~/.tmux.conf ~/.tmux.conf.backup && echo "~/.tmux.conf -> ~/.tmux.conf.backup"
   fi
-  if [ -e ~/.tmux.conf ]; then
+  if [ -e ~/.vimrc ]; then
     mv ~/.vimrc ~/.vimrc.backup && echo "~/.vimrc -> ~/.vimrc.backup"
   fi
 else
