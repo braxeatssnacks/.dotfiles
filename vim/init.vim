@@ -24,6 +24,16 @@ function! StripTrailingWhitespace()
   %s/\s\+$//e
 endfunction
 
+" `dd` removes line in quickfix window
+function! RemoveQFItem()
+  let curqfidx = line('.') - 1
+  let qfall = getqflist()
+  call remove(qfall, curqfidx)
+  call setqflist(qfall, 'r')
+  execute curqfidx + 1 . "cfirst"
+  :copen
+endfunction
+
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
 set runtimepath^=~/.opam/system/share/ocp-indent/vim
@@ -275,6 +285,12 @@ augroup sys_tasks
   autocmd VimResized * wincmd =
   " auto source vimrc changes on save
   autocmd BufWritePost .vimrc source $MYVIMRC
+augroup END
+
+" quickfix window context
+command! RemoveQFItem :call RemoveQFItem()
+augroup qf_window
+  autocmd FileType qf nnoremap <buffer> dd :call RemoveQFItem()<CR>
 augroup END
 
 

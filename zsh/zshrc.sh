@@ -145,3 +145,4 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 
 # work hack
 export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"

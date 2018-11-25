@@ -28,7 +28,7 @@ windows:
         - docker:
           # - gash && gco master && gf && gpl -q && gco - && gashp
           - awslogin engineering
-          - `AWS_PROFILE=nwprod aws --region us-east-1 ecr get-login --no-include-email`
+          - AWS_PROFILE=nwprod aws --region us-east-1 ecr get-login --no-include-email
           - ./dev.sh -p nw-comments
           - cd /home/app
           - indy supervisor --nodaemon start
