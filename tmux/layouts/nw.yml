@@ -27,8 +27,8 @@ windows:
           - clear; glg
         - docker:
           # - gash && gco master && gf && gpl -q && gco - && gashp
-          - awslogin engineering
-          - AWS_PROFILE=nwprod aws --region us-east-1 ecr get-login --no-include-email
+          # - awslogin engineering
+          # - AWS_PROFILE=nwprod aws --region us-east-1 ecr get-login --no-include-email
           - ./dev.sh -p nw-comments
           - cd /home/app
           - indy supervisor --nodaemon start
@@ -38,6 +38,34 @@ windows:
           - clear; echo "discourse-rails-logs"
         - errors:
           - clear; echo "discourse-rails-errors"
+
+  - wp:
+      layout: main-horizontal
+      root: /srv/nerdwallet/wp/
+      panes:
+        - editor:
+          - clear; glg
+        - container:
+          - grunt
+          - indy -C -CP 19587:19587 supervisor --nodaemon start
+        - php-logs:
+          - tail -f logs/php.out
+        - php-err:
+          - tail -f logs/php.err
+        - nginx-logs:
+          - tail -f logs/nginx.out
+
+  - widget-user-content:
+      layout: main-vertical
+      root: /srv/nerdwallet
+      panes:
+        - widget:
+          - cd widget-user-content
+          - npm run dev
+        - service:
+          - cd widgets-service
+          - npm run start-dev
+
   - nwjs-user-content:
       layout: main-vertical
       root: /srv/nerdwallet/nwjs-user-content/
@@ -49,16 +77,6 @@ windows:
           - npm run build-watch
         - storybook:
           - npm run storybook
-
-  - react-components:
-    layout: main-vertical
-    root: /srv/nerdwallet/react-components/
-    panes:
-      - editor:
-          # - gpl -q && gash && gco master && gf && gpl && gco - && gashp
-          - clear; glg
-      - storybook:
-        - clear; echo "npm run start || npm run storybook -- components/target-component"
 
   - front-page:
       layout: main-horizontal
