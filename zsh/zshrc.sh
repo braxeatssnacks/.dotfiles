@@ -69,6 +69,7 @@ alias ll="ls -AFGl"
 # eval "$(thefuck --alias)"
 alias please='sudo $(fc -ln -1)'
 
+alias vi="/usr/bin/vim"
 alias oldvim="/usr/bin/vim"
 alias vim="/usr/local/bin/nvim"
 
@@ -104,11 +105,11 @@ zle -N zle-keymap-select
 function virtualenv_info {
   local virtalenv_basename
   if [[ -n "$VIRTUAL_ENV" ]]; then
-    virtualenv_basname="${VIRTUAL_ENV##*/}"
+    venv_basename="${VIRTUAL_ENV##*/}"
   else
-    virtualenv_basname=''
+    venv_basename=''
   fi
-  [[ -n "$virtualenv_basname" ]] && echo "($virtualenv_basname) "
+  [[ -n "$venv_basename" ]] && echo "($venv_basename) "
 }
 # hack for deactivate
 function set_virtualenv_info {
@@ -143,6 +144,3 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 # -- "workon" : switch environments
 # -- "mkvirtualenv" : create new environment
 
-# work hack
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-export PATH="/usr/local/opt/postgresql@9.6/bin:$PATH"

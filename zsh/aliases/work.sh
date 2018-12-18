@@ -51,3 +51,8 @@ alias discourse-nginx-access="discourse-log discourse-access.log"
 alias discourse-nginx-errors="discourse-log discourse-error.log"
 
 export AWS_PROFILE=nwdev
+
+# protobuf version 2
+if [[ ":$PATH:" != *":/usr/local/opt/protobuf@2.5/bin"* ]]; then
+    export PATH=/usr/local/opt/protobuf@2.5/bin:$PATH
+fi

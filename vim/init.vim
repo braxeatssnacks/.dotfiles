@@ -85,7 +85,7 @@ call plug#begin('~/.vim/plugged')
   " autocompletion
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'fishbullet/deoplete-ruby'
+    " Plug 'fishbullet/deoplete-ruby'
   else
     silent !pip3 install neovim
     Plug 'Shougo/deoplete.nvim'
