@@ -65,7 +65,7 @@ function install_package {
 function check_software {
   echo "Checking to see if $1 is installed..."
   if ! [[ -x "$(command -v $1)" ]]; then
-    echo " + $(tput setaf 5)$1$(tput sgr 0) is $(tput bold)NOT$(tput sgr0) yet installed."
+    echo "$(tput setaf 2) + $(tput setaf 5)$1$(tput sgr 0) is $(tput bold)NOT$(tput sgr0) yet installed."
     yn_prompt "Would you like to install it?" && install_package $1
   else
     echo "$(tput setaf 2) + $(tput setaf 5)${1}$(tput sgr 0) is already installed"
@@ -100,7 +100,6 @@ function handle_existing_config {
     for path in "${checks[@]}"; do
       if [[ -L "$path" ]]; then
         # follow symlinks & backup the contents of resolved target
-        echo "symlink: $path"
         resolved=$path
         while [[ -L "$resolved" ]]; do
           dir="$(cd -P $(dirname "$resolved") && pwd)"
@@ -108,21 +107,19 @@ function handle_existing_config {
           # account for relative symlinks
           [[ "$resolved" != /* ]] && source="$dir/$resolved"
         done
-        mv $resolved "${path}.backup" && echo "${path/#$HOME/~} (-> ${resolved/#$HOME/~}) -> ${path/#$HOME/~}.backup"
+        cp -pR $resolved "${path}.backup" && echo "${path/#$HOME/~} (-> ${resolved/#$HOME/~}) -> ${path/#$HOME/~}.backup"
       elif [[ -e "$path" ]]; then
-        mv $path "${path}.backup" && echo "${path/#$HOME/~} -> ${path/#$HOME/~}.backup"
-      fi
-    done
-  else
-    # blind trash
-    echo -e "Onwards and upwards! Never look back!"
-    for path in "${checks[@]}"; do
-      if [[ -e "$path" ]]; then
-        echo "${path/#$HOME/~}"
-        rm -rf "$path" && echo " $(tput setaf 1)x$(tput sgr 0) ${path/#$HOME/~}"
+        cp $path "${path}.backup" && echo "${path/#$HOME/~} -> ${path/#$HOME/~}.backup"
       fi
     done
   fi
+  # trash it all
+  echo "Onwards and upwards!"
+  for path in "${checks[@]}"; do
+    if [[ -e "$path" ]]; then
+      rm -rf "$path" && echo " $(tput setaf 1)x$(tput sgr 0) ${path/#$HOME/~}"
+    fi
+  done
 }
 
 function link_dotfiles {
@@ -156,6 +153,7 @@ function main {
     link_dotfiles
 
     echo "$(tput setaf 2)Success!$(tput sgr 0)"
+    echo "Restart your shell to see the changes take effect. Welcome to the wave, my friend. 👩🏾‍💻👨🏾‍💻"
   else
     abort
   fi
