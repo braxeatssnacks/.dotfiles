@@ -1,0 +1,16 @@
+# ~/.dotfiles/tmux/layouts/layout_name.yml -> ~/.tmuxinator/layout_name.yml
+
+name: layout_name
+root: abs_path_to_context_dir/
+pre_window: context_init_commands
+
+windows:
+  - template_window:
+      layout: (even-horizontal | even-vertical | main-horizontal | main-vertical | tiled)
+      root: abs_path_to_window_dir/
+      panes:
+        - template_pane:
+          - pane_init_cmd1
+          - ...
+
+  - ...
