@@ -4,7 +4,6 @@
 " safety first
 set secure
 
-" TODO: move functions to own file
 " install vim plug if not installed
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
@@ -12,7 +11,7 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall
 endif
 
-" project root 
+" project root
 function! FindGitRoot()
   return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
 endfunction
@@ -108,6 +107,9 @@ call plug#begin('~/.vim/plugged')
   " linting
   Plug 'w0rp/ale'
 
+  " testing
+  Plug 'janko-m/vim-test'
+
 call plug#end()
 
 " allow autocompletion
@@ -174,7 +176,7 @@ if executable('ag')
   " fast enough to not cache
   let g:ctrlp_use_caching = 0
   " configure ack.vim to use ag
-  let g:ackprg = 'ag --vimgrep --smart-case'                                                   
+  let g:ackprg = 'ag --vimgrep --smart-case'
 endif
 
 " tern
@@ -194,6 +196,9 @@ let g:airline#extensions#ale#enabled = 1
 " let g:ale_sign_warning = '🤔'
 highlight clear ALEErrorSign
 highlight clear ALEWarningSign
+
+" testing strategy
+let test#strategy = 'vimux'	
 
 
 """""""""""""""""""""""" CONFIGS
@@ -284,8 +289,6 @@ augroup sys_tasks
   autocmd BufWritePre * call StripTrailingWhitespace()
   " resize splits on window resize
   autocmd VimResized * wincmd =
-  " auto source vimrc changes on save
-  autocmd BufWritePost .vimrc source $MYVIMRC
 augroup END
 
 " quickfix window context
@@ -341,6 +344,12 @@ nnoremap gbl :Gblame<CR>
 
 " toggle directory view sidebar
 map <C-n> :NERDTreeToggle<CR>
+
+nnoremap <leader>t :TestNearest<CR>
+nnoremap <leader>tf :TestFile<CR>
+nnoremap <leader>ts :TestSuite<CR>
+nnoremap <leader>tl :TestLast<CR>
+nnoremap <leader>tgf :TestVisit<CR>
 
 " neovim
 if has('nvim')
