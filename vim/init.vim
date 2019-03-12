@@ -97,6 +97,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'pangloss/vim-javascript'
   Plug 'mxw/vim-jsx'
   Plug 'moll/vim-node'
+  Plug 'digitaltoad/vim-pug'
 
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
