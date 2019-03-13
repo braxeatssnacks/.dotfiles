@@ -4,14 +4,14 @@ export DOTFILES="$HOME/.dotfiles"
 if command -v tmux>/dev/null; then
   # attempt to reconnect to existing session or create new
   if test -z "$TMUX"; then
-    session_num=$(
-    tmux list-sessions  |
-      grep -v attached 	|
-      grep -oE '^\d+:' 	|
-      grep -oE '^\d+' 	|
+    session_name=$(
+    tmux list-sessions      |
+      grep -v attached      |
+      grep -oE '^(\w|\s)+:' |
       head -1
     )
-    if test $session_num; then exec tmux attach -t $session_num; else exec tmux; fi
+    # default grep has no regex lookahead; prune colon from "$session_name"
+    if test $session_name; then exec tmux attach -t ${session_name: : -1}; else exec tmux; fi
   fi
 else
   echo "tmux not installed. Run ${DOTFILES/#$HOME/~}/deploy.sh to configure dependencies..."
