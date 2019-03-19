@@ -302,6 +302,9 @@ augroup END
 " leader key
 let g:mapleader = "\<SPACE>"
 
+" F2 key shows tabs and trailing chars
+nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
+
 " vertical split quick open/close
 nnoremap <silent> vv <C-w>v
 nnoremap <silent> qq <C-w>q
