@@ -283,6 +283,13 @@ highlight TabLine ctermfg=grey ctermbg=black
 highlight TabLineSel ctermfg=blue ctermbg=NONE
 highlight Title ctermfg=blue ctermbg=NONE
 
+" keywords
+augroup vimrc_todo
+  autocmd!
+  autocmd Syntax * syntax match vimrc_todo /\v\_.<(TODO|FIXME|NOTE|OPTIMIZE|XXX).*/hs=s+1 containedin=.*Comment
+augroup END
+highlight link vimrc_todo Todo
+
 " automatic commands run on sys task
 augroup sys_tasks
   " remove trailing space on save unless b:noStripWhitespace
@@ -302,6 +309,9 @@ augroup END
 """""""""""""""""""""""" MACROS + REMAPS
 " leader key
 let g:mapleader = "\<SPACE>"
+
+" F2 key shows tabs and trailing chars
+nnoremap <F2> :<C-U>setlocal lcs=tab:>-,trail:-,eol:$ list! list? <CR>
 
 " vertical split quick open/close
 nnoremap <silent> vv <C-w>v
