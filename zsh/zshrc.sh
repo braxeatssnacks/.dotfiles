@@ -40,6 +40,23 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 
 # ---------------------------------------------------------------------------- #
 
+# -------------------------- tmux(-inator) setup ----------------------------- #
+
+export PATH="$PATH:$DOTFILES/tmux/tmuxinator/bin"
+# load autocomplete
+source "$DOTFILES/tmux/tmuxinator/completion/tmuxinator.zsh"
+
+# ---------------------------------------------------------------------------- #
+
+# -------------------------- node setup -------------------------------------- #
+
+export NVM_DIR="$ZSH/plugins/nvm"
+# load nvm & autocompletion
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+# ---------------------------------------------------------------------------- #
+
 # cd stack
 setopt AUTO_PUSHD
 # optional cd

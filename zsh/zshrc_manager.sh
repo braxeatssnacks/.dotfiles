@@ -1,4 +1,5 @@
 export DOTFILES="$HOME/.dotfiles"
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # Run tmux if exists
 if command -v tmux>/dev/null; then
@@ -24,5 +25,3 @@ fi
 
 source "$DOTFILES/zsh/zshrc.sh"
 source "$DOTFILES/zsh/ext.sh"
-
-source "$DOTFILES/tmux/tmuxinator/completion/tmuxinator.zsh"

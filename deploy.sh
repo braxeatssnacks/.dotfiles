@@ -79,7 +79,6 @@ function install_softwares {
   check_software python
   check_software nvim
   check_software ruby
-  gem install tmuxinator >> /dev/null 2>&1
 }
 
 function check_shell {
