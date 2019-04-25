@@ -11,6 +11,3 @@
 	path = tmux/tmuxinator
 	url = https://github.com/tmuxinator/tmuxinator
 	branch = master
-[submodule "zsh/plugins/nvm"]
-	path = zsh/plugins/nvm
-	url = https://github.com/creationix/nvm/
