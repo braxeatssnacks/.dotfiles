@@ -54,9 +54,23 @@ export PATH="$PATH:$TMUXINATOR_DIR/bin"
 
 export NVM_DIR="$ZSH/plugins/nvm"
 
-# load nvm & autocompletion
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -r "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+# nvm slows shell init so defer nvm init until: npm, node, nvm, or a node-dependent command requires it
+if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
+  # load autocomplete
+  [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+  # comb nvm dir for global commands
+	declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \; | sort -u`)
+
+  # prefix those commands with nvm init
+  function __init_nvm {
+    for cmd in "${__node_commands[@]}"; do unalias $cmd; done
+		\. "$NVM_DIR"/nvm.sh
+    unset __node_commands
+    unset -f __init_nvm
+  }
+  for cmd in "${__node_commands[@]}"; do alias $cmd='__init_nvm && '$cmd; done;
+fi
 
 # ---------------------------------------------------------------------------- #
 
