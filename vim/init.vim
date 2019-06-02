@@ -63,6 +63,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
+  " minimap
+  Plug 'severin-lemaignan/vim-minimap'
+
   " smart '/' search
   Plug 'pgdouyon/vim-evanesco'
 
@@ -92,6 +95,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
+  " python
+  Plug 'davidhalter/jedi-vim'
+
   " javascript
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
   Plug 'pangloss/vim-javascript'
@@ -104,7 +110,7 @@ call plug#begin('~/.vim/plugged')
 
   " buffer deletion w/ layout preservation
   Plug 'qpkorr/vim-bufkill'
-
+  
   " linting
   Plug 'w0rp/ale'
 
@@ -355,6 +361,9 @@ nnoremap gbl :Gblame<CR>
 
 " toggle directory view sidebar
 map <C-n> :NERDTreeToggle<CR>
+
+" toggle minimap 
+map <C-m> :MinimapToggle<CR>
 
 nnoremap <leader>t :TestNearest<CR>
 nnoremap <leader>tf :TestFile<CR>
