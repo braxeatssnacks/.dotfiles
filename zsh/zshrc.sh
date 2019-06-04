@@ -55,12 +55,17 @@ export PATH="$PATH:$TMUXINATOR_DIR/bin"
 export NVM_DIR="$ZSH/plugins/nvm"
 
 # nvm slows shell init so defer nvm init until: npm, node, nvm, or a node-dependent command requires it
+# (https://www.growingwiththeweb.com/2018/01/slow-nvm-init.html)
 if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   # load autocomplete
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
-  # comb nvm dir for global commands
-	declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \; | sort -u`)
+  # comb nvm dir for global commands or use defaults
+  if [ "$(ls -A $NVM_DIR/versions 2> /dev/null)" ]; then
+    declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \; | sort -u`)
+  else
+    declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
+  fi
 
   # prefix those commands with nvm init
   function __init_nvm {
@@ -131,6 +136,7 @@ function zle-line-init zle-keymap-select {
   RPS2=RPS1
 
   zle reset-prompt
+  zle -R
 }
 zle -N zle-line-init
 zle -N zle-keymap-select
@@ -150,10 +156,13 @@ function set_virtualenv_info {
   export PROMPT="%{$fg[green]%}$(virtualenv_info)%{$reset_color%}% $OG_PROMPT"
 }
 
-# time reset
+# redraw on time reset & resize
 TMOUT=60
 function TRAPALRM {
-  zle && zle reset-prompt
+  zle && { zle reset-prompt; zle -R }
+}
+function TRAPWINCH {
+  zle && { zle reset-prompt; zle -R }
 }
 
 # hook funcs
