@@ -108,7 +108,7 @@ function handle_existing_config {
         done
         cp -pR $resolved "${path}.backup" && echo "${path/#$HOME/~} (-> ${resolved/#$HOME/~}) -> ${path/#$HOME/~}.backup"
       elif [[ -e "$path" ]]; then
-        cp $path "${path}.backup" && echo "${path/#$HOME/~} -> ${path/#$HOME/~}.backup"
+        cp -R $path "${path}.backup" && echo "${path/#$HOME/~} -> ${path/#$HOME/~}.backup"
       fi
     done
   fi
