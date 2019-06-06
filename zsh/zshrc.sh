@@ -23,7 +23,7 @@ autoload -U compinit
 
 # source oh-my-zsh plugins
 for plugin ($plugins); do
-    fpath=($OH_MY_ZSH/plugins/$plugin $fpath)
+  fpath=($OH_MY_ZSH/plugins/$plugin $fpath)
 done
 
 compinit
@@ -108,8 +108,8 @@ alias ll="ls -AFGl"
 # eval "$(thefuck --alias)"
 alias please='sudo $(fc -ln -1)'
 
+# the evolution of man
 alias vi="/usr/bin/vim"
-alias oldvim="/usr/bin/vim"
 alias vim="/usr/local/bin/nvim"
 
 export PATH="$PATH:$HOME/.rvm/bin"    # Add RVM to PATH for scripting
