@@ -70,7 +70,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'pgdouyon/vim-evanesco'
 
   " fuzzy file search
-  Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
+  if has('nvim')
+    Plug 'ctrlpvim/ctrlp.vim', { 'do': ':UpdateRemotePlugins' }
+  endif
 
   " word search
   Plug 'mileszs/ack.vim'
@@ -88,11 +90,6 @@ call plug#begin('~/.vim/plugged')
   if has('nvim')
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     " Plug 'fishbullet/deoplete-ruby'
-  else
-    silent !pip3 install neovim
-    Plug 'Shougo/deoplete.nvim'
-    Plug 'roxma/nvim-yarp'
-    Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
   " python
@@ -119,8 +116,11 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
-" allow autocompletion
+" allow autocompletion on all filetypes except txt
 let g:deoplete#enable_at_startup=1
+augroup deoplete_configs
+  autocmd FileType tex call deoplete#custom#buffer_option('auto_complete', v:false)
+augroup END
 " Enter maps to completion
 let g:SuperTabCrMapping = 1
 let g:SuperTabDefaultCompletionType = "<c-n>"
