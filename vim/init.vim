@@ -8,7 +8,7 @@ set secure
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
+  autocmd VimEnter * PlugInstall!
 endif
 
 " project root
@@ -88,8 +88,14 @@ call plug#begin('~/.vim/plugged')
 
   " autocompletion
   if has('nvim')
+    silent !pip3 install pynvim
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     " Plug 'fishbullet/deoplete-ruby'
+  else
+    silent !pip3 install pynvim
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'roxma/nvim-yarp'
+    Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
   " python
