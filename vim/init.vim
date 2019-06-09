@@ -64,9 +64,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'bling/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
-  " minimap
-  Plug 'severin-lemaignan/vim-minimap'
-
   " smart '/' search
   Plug 'pgdouyon/vim-evanesco'
 
@@ -114,7 +111,7 @@ call plug#begin('~/.vim/plugged')
 
   " buffer deletion w/ layout preservation
   Plug 'qpkorr/vim-bufkill'
-  
+
   " linting
   Plug 'w0rp/ale'
 
@@ -212,7 +209,7 @@ highlight clear ALEErrorSign
 highlight clear ALEWarningSign
 
 " testing strategy
-let test#strategy = 'vimux'	
+let test#strategy = 'vimux'
 
 
 """""""""""""""""""""""" CONFIGS
@@ -285,10 +282,10 @@ highlight Comment ctermfg=grey
 " cursor
 set cursorline
 highlight CursorLine cterm=NONE
-highlight Visual cterm=NONE ctermfg=blue ctermbg=black 
+highlight Visual cterm=NONE ctermfg=blue ctermbg=black
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 " terminal cursor is red
-highlight TermCursor ctermfg=red 
+highlight TermCursor ctermfg=red
 
 " tabs
 highlight TabLineFill ctermfg=black ctermbg=black
@@ -368,9 +365,6 @@ nnoremap gbl :Gblame<CR>
 
 " toggle directory view sidebar
 map <C-n> :NERDTreeToggle<CR>
-
-" toggle minimap 
-map <C-m> :MinimapToggle<CR>
 
 nnoremap <leader>t :TestNearest<CR>
 nnoremap <leader>tf :TestFile<CR>
