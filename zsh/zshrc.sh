@@ -85,7 +85,6 @@ setopt AUTO_PUSHD
 setopt AUTO_CD
 
 # fasd
-eval "$(fasd --init auto)"
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
 alias d='fasd -d'        # directory
@@ -108,9 +107,9 @@ alias ll="ls -AFGl"
 # eval "$(thefuck --alias)"
 alias please='sudo $(fc -ln -1)'
 
-# the evolution of man
+# the evolution of man - mandate npm init
 alias vi="/usr/bin/vim"
-alias vim="/usr/local/bin/nvim"
+alias vim="__init_nvm 2> /dev/null; /usr/local/bin/nvim"
 
 export PATH="$PATH:$HOME/.rvm/bin"    # Add RVM to PATH for scripting
 export EDITOR="/usr/local/bin/nvim"   # whole lotta gang shit
@@ -173,9 +172,6 @@ precmd_functions=($precmd_functions set_virtualenv_info)
 autoload -U colors && colors
 export CLICOLOR=1
 export LSCOLORS="gxBxhxDxfxhxhxhxhxcxcx"
-
-# add python3 modules to path
-export PATH="$PATH:$HOME/Library/Python/3.6/bin"
 
 # OS X zen
 alias showFiles='defaults write com.apple.finder AppleShowAllFiles YES; killall Finder /System/Library/CoreServices/Finder.app'
