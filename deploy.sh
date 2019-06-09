@@ -64,7 +64,7 @@ function install_package {
 function check_software {
   echo "Checking to see if $1 is installed..."
   if ! [[ -x "$(command -v $1)" ]]; then
-    echo "$(tput setaf 2) + $(tput setaf 5)$1$(tput sgr 0) is $(tput bold)NOT$(tput sgr0) yet installed."
+    echo "$(tput setaf 2) + $(tput setaf 5)$1$(tput sgr 0) is $(tput bold)$(tput setaf 1)NOT$(tput sgr0) yet installed."
     yn_prompt "Would you like to install it?" && install_package $1
   else
     echo "$(tput setaf 2) + $(tput setaf 5)${1}$(tput sgr 0) is already installed"
