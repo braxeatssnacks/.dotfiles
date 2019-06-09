@@ -31,8 +31,9 @@ function! RemoveQFItem()
   call remove(qfall, curqfidx)
   call setqflist(qfall, 'r')
   execute curqfidx + 1 . "cfirst"
-  :copen
+  copen
 endfunction
+
 
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
