@@ -1,5 +1,4 @@
 #!/bin/bash
-
 nvim_config_dir="$HOME/.config/nvim"
 nvim_config_path="$nvim_config_dir/init.vim"
 tmux_config_path="$HOME/.tmux.conf"
@@ -76,9 +75,10 @@ function install_softwares {
   check_software zsh
   check_software tmux
   check_software vim
-  check_software python
+  check_software python3
   check_software nvim
   check_software ruby
+  check_software fasd
 }
 
 function check_shell {
