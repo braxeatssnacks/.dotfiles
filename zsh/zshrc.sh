@@ -43,7 +43,7 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 # -------------------------- tmux(-inator) setup ----------------------------- #
 
 export TMUXINATOR_DIR="$DOTFILES/tmux/tmuxinator"
-export PATH="$PATH:$TMUXINATOR_DIR/bin"
+export PATH="$TMUXINATOR_DIR/bin:$PATH"
 
 # load autocomplete
 [ -s "$TMUXINATOR_DIR/completion/tmuxinator.zsh" ] && \. "$TMUXINATOR_DIR/completion/tmuxinator.zsh"
@@ -85,6 +85,7 @@ setopt AUTO_PUSHD
 setopt AUTO_CD
 
 # fasd
+eval "$(fasd --init auto)"
 alias a='fasd -a'        # any
 alias s='fasd -si'       # show / search / select
 alias d='fasd -d'        # directory
@@ -182,4 +183,3 @@ alias unzen='defaults write com.apple.finder CreateDesktop true && defaults writ
 # python virtual environment
 # -- "workon" : switch environments
 # -- "mkvirtualenv" : create new environment
-
