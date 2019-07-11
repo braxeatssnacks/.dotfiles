@@ -211,6 +211,8 @@ highlight clear ALEWarningSign
 " testing strategy
 let test#strategy = 'vimux'
 
+" vim-javascript style
+let g:javascript_plugin_jsdoc = 1
 
 """""""""""""""""""""""" CONFIGS
 " safety first
@@ -286,6 +288,9 @@ highlight Visual cterm=NONE ctermfg=blue ctermbg=black
 set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
 " terminal cursor is red
 highlight TermCursor ctermfg=red
+
+" NerdTree
+highlight NERDTreeCWD ctermfg=yellow
 
 " tabs
 highlight TabLineFill ctermfg=black ctermbg=black
