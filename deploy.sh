@@ -103,6 +103,7 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
+  pip3 install tmuxp
   check_software nvim
   if [[ $os = "linux" ]]; then
     check_software pip3
