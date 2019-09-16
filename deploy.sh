@@ -2,7 +2,7 @@
 nvim_config_dir="$HOME/.config/nvim"
 nvim_config_path="$nvim_config_dir/init.vim"
 tmux_config_path="$HOME/.tmux.conf"
-tmux_layouts_dir="$HOME/.tmuxinator"
+tmux_layouts_dir="$HOME/.tmuxp"
 vim_config_dir="$HOME/.vim"
 vim_config_path="$HOME/.vimrc"
 zsh_config_path="$HOME/.zshrc"
@@ -156,7 +156,7 @@ function handle_existing_config {
 function link_dotfiles {
   ln -s "$HOME/.dotfiles/zsh/zshrc_manager.sh" "$HOME/.zshrc"
   ln -s "$HOME/.dotfiles/tmux/tmux.conf" "$HOME/.tmux.conf"
-  ln -s "$HOME/.dotfiles/tmux/layouts" "$HOME/.tmuxinator"
+  ln -s "$HOME/.dotfiles/tmux/layouts" "$HOME/.tmuxp"
   ln -s "$HOME/.dotfiles/vim/init.vim" "$HOME/.vimrc"
   # neovim -> vim
   mkdir -p "$HOME/.config"
