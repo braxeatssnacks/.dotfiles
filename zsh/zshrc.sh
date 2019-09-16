@@ -40,16 +40,6 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 
 # ---------------------------------------------------------------------------- #
 
-# -------------------------- tmux(-inator) setup ----------------------------- #
-
-export TMUXINATOR_DIR="$DOTFILES/tmux/tmuxinator"
-export PATH="$TMUXINATOR_DIR/bin:$PATH"
-
-# load autocomplete
-[ -s "$TMUXINATOR_DIR/completion/tmuxinator.zsh" ] && \. "$TMUXINATOR_DIR/completion/tmuxinator.zsh"
-
-# ---------------------------------------------------------------------------- #
-
 # -------------------------- node setup -------------------------------------- #
 
 export NVM_DIR="$ZSH/plugins/nvm"
@@ -64,7 +54,7 @@ if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   if [ "$(ls -A $NVM_DIR/versions 2> /dev/null)" ]; then
     declare -a __node_commands=(nvm `find -L $NVM_DIR/versions/*/*/bin -type f -exec basename {} \; | sort -u`)
   else
-    declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack')
+    declare -a __node_commands=('nvm' 'node' 'npm' 'yarn' 'gulp' 'grunt' 'webpack', 'indy')
   fi
 
   # prefix those commands with nvm init
@@ -76,6 +66,13 @@ if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   }
   for cmd in "${__node_commands[@]}"; do alias $cmd='__init_nvm && '$cmd; done;
 fi
+
+# ---------------------------------------------------------------------------- #
+
+# -------------------------- python setup -------------------------------------- #
+
+# TODO: automate find local python3 site packages and add to $PATH
+export PATH="$PATH:$HOME/Library/Python/3.7/bin"
 
 # ---------------------------------------------------------------------------- #
 
