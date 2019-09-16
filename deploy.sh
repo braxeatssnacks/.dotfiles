@@ -76,6 +76,7 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
+  pip3 install tmuxp
   check_software nvim
   check_software ruby
   check_software fasd
