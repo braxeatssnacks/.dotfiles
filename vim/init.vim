@@ -197,9 +197,23 @@ augroup tern_js_config
 augroup END
 
 " linting & formatting
-let g:ale_fixers = { 'javascript': ['eslint'], 'ruby': ['rubocop'], 'python': ['autopep8'] }
+let g:ale_fixers = { 
+  \'javascript': ['eslint'],
+  \'jsx': ['eslint'],
+  \'python': ['autopep8'],
+  \'ruby': ['rubocop']
+\}
 let g:ale_fix_on_save = 1
-let g:ale_linters = { 'javascript': ['eslint'], 'ruby': ['rubocop'], 'python': ['autopep8'] }
+" let g:ale_linter_aliases = {
+"   \'jsx': ['css', 'javascript']
+" \}
+let g:ale_linters = {
+  \'less': ['stylelint'],
+  \'javascript': ['eslint'],
+  \'jsx': ['eslint', 'stylelint'],
+  \'python': ['autopep8'],
+  \'ruby': ['rubocop']
+\}
 let g:ale_linters_explicit = 1
 let g:ale_set_highlights = 0
 let g:airline#extensions#ale#enabled = 1
