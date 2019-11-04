@@ -54,7 +54,7 @@ function install_package {
     brew install $1
   elif [[ -x "$(command -v apt-get)" ]]; then
     # ubuntu
-    apt-get install $1
+    sudo apt-get install $1
   else
     # TODO: determine installer based on OS
     error  "Sorry, I can't determine default package manager! Please install $1 manually & run this script again."
