@@ -85,6 +85,7 @@ function install_softwares {
   check_software python3
   check_software python3-pip
   check_software neovim
+  pip3 install --user --upgrade pynvim
   check_software ruby
   check_software fasd
 }
