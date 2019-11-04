@@ -79,7 +79,7 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
-  check_software nvim
+  check_software neovim
   check_software ruby
   check_software fasd
 }
