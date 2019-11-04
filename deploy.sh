@@ -52,6 +52,9 @@ function install_package {
   if [[ -x "$(command -v brew)" ]]; then
     # os x
     brew install $1
+  elif [[ -x "$(command -v zypper)" ]]; then
+    # openSUSE
+    sudo zypper install $1
   elif [[ -x "$(command -v apt-get)" ]]; then
     # ubuntu
     sudo apt-get install $1
