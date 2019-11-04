@@ -51,7 +51,11 @@ function install_package {
   local package=$1
   if [[ -x "$(command -v brew)" ]]; then
     # os x
-    brew install $1
+    if [[ $1 == 'python3-pip' ]]; then
+      : # no-op
+    else
+      brew install $1
+    fi
   elif [[ -x "$(command -v zypper)" ]]; then
     # openSUSE
     sudo zypper install $1
@@ -79,6 +83,7 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
+  check_software python3-pip
   check_software neovim
   check_software ruby
   check_software fasd
