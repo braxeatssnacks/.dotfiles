@@ -160,9 +160,13 @@ function link_dotfiles {
   ln -s "$HOME/.dotfiles/vim/init.vim" "$HOME/.vimrc"
   # neovim -> vim
   mkdir -p "$HOME/.config"
-  mkdir -p "$HOME/.vim"
+  mkdir -p "$HOME/.vim/plugin"
   ln -s "$HOME/.vimrc" "$HOME/.vim/init.vim"
   ln -s "$HOME/.vim" "$HOME/.config/nvim"
+  # set linux clipboard option
+  if [[ $os = "linux" ]]; then
+    echo 'set clipboard=unnamedplus' > "$HOME/.vim/plugin/set-clipboard-linux.vim"
+  fi
 }
 
 function fix_permissions {
