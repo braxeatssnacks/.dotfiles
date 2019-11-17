@@ -51,28 +51,41 @@ function yn_prompt {
   fi
 }
 
+function check_os {
+  uname_os=$(uname -s)
+  if [[ $uname_os = "Darwin" ]]; then
+    os=macos
+    if [[ -x "$(command -v brew)" ]]; then
+      pkg_mgr_install="brew install"
+    else
+      error "For MacOS, this deploy script requires Homebrew.  Please install Homebrew from https://brew.sh or install $package manually & run this script again."
+    fi
+  elif [[ $uname_os = "Linux" ]]; then
+    os=linux
+    if [[ -x "$(command -v zypper)" ]]; then
+      pkg_mgr_install="sudo zypper install"   # openSUSE
+    elif [[ -x "$(command -v apt-get)" ]]; then
+      pkg_mgr_install="sudo apt-get install"  # Ubuntu, Debian, or equivalent
+    elif [[ -x "$(command -v yum)" ]]; then
+      pkg_mgr_install="sudo yum -y install"   # Red Hat, Fedora, CentOS, Amazon
+    else
+      error "For Linux, this deploy script only supports zypper, yum, and apt-get package managers.  Please install $package manually & run this script again."
+    fi
+  fi
+}
+
 function install_package {
   local package=$1
-  if [[ -x "$(command -v brew)" ]]; then
-    # os x
-    if [[ $1 == 'python3-pip' ]]; then
-      : # no-op
-    else
-      brew install $1
+  if [[ $os = "linux" ]]; then
+    if [[ $package = "nvim" ]]; then
+      package="neovim"
+    elif [[ $package = "pip3" ]]; then
+      package="python3-pip"
     fi
-  elif [[ -x "$(command -v zypper)" ]]; then
-    # openSUSE
-    sudo zypper install $1
-  elif [[ -x "$(command -v yum)" ]]; then
-    # fedora
-    sudo yum -y install $1
-  elif [[ -x "$(command -v apt-get)" ]]; then
-    # ubuntu
-    sudo apt-get install $1
-  else
-    # TODO: determine installer based on OS
-    error  "Sorry, I can't determine default package manager! Please install $1 manually & run this script again."
   fi
+
+  # Install package using detected package manager:
+  $pkg_mgr_install $package
 }
 
 function check_software {
@@ -90,8 +103,10 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
-  check_software python3-pip
-  check_software neovim
+  check_software nvim
+  if [[ $os = "linux" ]]; then
+    check_software pip3
+  fi
   pip3 install --user --upgrade pynvim
   check_software ruby
   check_software fasd
@@ -161,6 +176,7 @@ function fix_permissions {
 }
 
 function main {
+  check_os
   echo "This script will attempt install and setup (neo-)vim, tmux & zsh on your device."
   if yn_prompt "Are you cool with that?"; then
     echo ""
