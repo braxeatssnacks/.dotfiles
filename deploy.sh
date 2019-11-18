@@ -6,6 +6,9 @@ tmux_layouts_dir="$HOME/.tmuxinator"
 vim_config_dir="$HOME/.vim"
 vim_config_path="$HOME/.vimrc"
 zsh_config_path="$HOME/.zshrc"
+if [[ $1 = '--bypass-yn-prompt' ]]; then
+  bypass_yn_prompt=true
+fi
 checks=(
   $nvim_config_path
   $vim_config_path
@@ -31,19 +34,23 @@ function abort {
 }
 
 function yn_prompt {
-  [[ "$#" -ne 1 ]] && { error "missing prompt message"; }
-  local prompt="$(tput setaf 6)${1}$(tput sgr 0)"
-  # message
-  echo -n "$prompt $(tput setaf 3)($(tput setaf 2)y$(tput setaf 3)/$(tput setaf 1)n$(tput setaf 3))$(tput sgr 0) "
-  local answer
-  local old_stty_cfg=$(stty -g)
-  stty raw -echo; answer=$(head -c 1); stty $old_stty_cfg
-  if echo "$answer" | grep -iq "^y"; then
-    echo
-    return 0
+  if [[ "$bypass_yn_prompt" = true ]]; then
+    return 0  # Always reply "yes"
   else
-    echo
-    return 1
+    [[ "$#" -ne 1 ]] && { error "missing prompt message"; }
+    local prompt="$(tput setaf 6)${1}$(tput sgr 0)"
+    # message
+    echo -n "$prompt $(tput setaf 3)($(tput setaf 2)y$(tput setaf 3)/$(tput setaf 1)n$(tput setaf 3))$(tput sgr 0) "
+    local answer
+    local old_stty_cfg=$(stty -g)
+    stty raw -echo; answer=$(head -c 1); stty $old_stty_cfg
+    if echo "$answer" | grep -iq "^y"; then
+      echo
+      return 0
+    else
+      echo
+      return 1
+    fi
   fi
 }
 
