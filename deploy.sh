@@ -106,6 +106,7 @@ function install_softwares {
   check_software nvim
   if [[ $os = "linux" ]]; then
     check_software pip3
+    pip3 install --user --upgrade setuptools
   fi
   pip3 install --user --upgrade pynvim
   check_software ruby
