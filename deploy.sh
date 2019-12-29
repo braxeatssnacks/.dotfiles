@@ -63,6 +63,9 @@ function install_package {
   elif [[ -x "$(command -v zypper)" ]]; then
     # openSUSE
     sudo zypper install $1
+  elif [[ -x "$(command -v yum)" ]]; then
+    # fedora
+    sudo yum -y install $1
   elif [[ -x "$(command -v apt-get)" ]]; then
     # ubuntu
     sudo apt-get install $1
