@@ -51,10 +51,17 @@ function install_package {
   local package=$1
   if [[ -x "$(command -v brew)" ]]; then
     # os x
-    brew install $1
+    if [[ $1 == 'python3-pip' ]]; then
+      : # no-op
+    else
+      brew install $1
+    fi
+  elif [[ -x "$(command -v zypper)" ]]; then
+    # openSUSE
+    sudo zypper install $1
   elif [[ -x "$(command -v apt-get)" ]]; then
     # ubuntu
-    apt-get install $1
+    sudo apt-get install $1
   else
     # TODO: determine installer based on OS
     error  "Sorry, I can't determine default package manager! Please install $1 manually & run this script again."
@@ -76,7 +83,9 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
-  check_software nvim
+  check_software python3-pip
+  check_software neovim
+  pip3 install --user --upgrade pynvim
   check_software ruby
   check_software fasd
 }
@@ -133,6 +142,17 @@ function link_dotfiles {
   ln -s "$HOME/.vim" "$HOME/.config/nvim"
 }
 
+function fix_permissions {
+  # init submodules to get omz dirs
+  (cd ~/.dotfiles && \
+    git pull -q && \
+    git submodule update --init --recursive -q)
+
+  # prevent zsh compinit insecure directories errors
+  chmod -R go-w "$HOME/.dotfiles/zsh/plugins/oh-my-zsh/plugins"
+  chown -R "$(whoami)" "$HOME/.dotfiles/zsh/plugins/oh-my-zsh/plugins"
+}
+
 function main {
   echo "This script will attempt install and setup (neo-)vim, tmux & zsh on your device."
   if yn_prompt "Are you cool with that?"; then
@@ -150,6 +170,7 @@ function main {
 
     echo "Now to glue everything up..."
     link_dotfiles
+    fix_permissions
 
     echo "$(tput setaf 2)Success!$(tput sgr 0)"
     echo "Restart your shell to see the changes take effect. Welcome to the wave, my friend. 👩🏾‍💻👨🏾‍💻"
