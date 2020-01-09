@@ -6,9 +6,6 @@ tmux_layouts_dir="$HOME/.tmuxinator"
 vim_config_dir="$HOME/.vim"
 vim_config_path="$HOME/.vimrc"
 zsh_config_path="$HOME/.zshrc"
-if [[ $1 = '--bypass-yn-prompt' ]]; then
-  bypass_yn_prompt=true
-fi
 checks=(
   $nvim_config_path
   $vim_config_path
@@ -185,5 +182,9 @@ function main {
     abort
   fi
 }
+
+if [[ $1 = '--bypass-yn-prompt' ]]; then
+  bypass_yn_prompt=true
+fi
 
 main
