@@ -199,7 +199,7 @@ augroup END
 let g:ale_fixers = { 
   \'javascript': ['eslint'],
   \'jsx': ['eslint'],
-  \'python': ['autopep8'],
+  \'python': ['black'],
   \'ruby': ['rubocop']
 \}
 let g:ale_fix_on_save = 1
@@ -210,7 +210,7 @@ let g:ale_linters = {
   \'less': ['stylelint'],
   \'javascript': ['eslint'],
   \'jsx': ['eslint', 'stylelint'],
-  \'python': ['autopep8'],
+  \'python': ['flake8'],
   \'ruby': ['rubocop']
 \}
 let g:ale_linters_explicit = 1
