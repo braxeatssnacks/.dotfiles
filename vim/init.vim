@@ -101,8 +101,7 @@ call plug#begin('~/.vim/plugged')
 
   " javascript
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-  Plug 'pangloss/vim-javascript'
-  Plug 'mxw/vim-jsx'
+  Plug 'neoclide/vim-jsx-improve'
   Plug 'moll/vim-node'
   Plug 'digitaltoad/vim-pug'
 
