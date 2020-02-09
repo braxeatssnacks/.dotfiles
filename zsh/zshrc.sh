@@ -110,12 +110,13 @@ alias ll="ls -AFGl"
 alias please='sudo $(fc -ln -1)'
 
 # the evolution of man - mandate npm init
+local nvim_bin=$(command -v nvim)    # use nvim command path, will break if nvim is an alias already
 alias vi="/usr/bin/vim"
-alias vim="__init_nvm 2> /dev/null; /usr/local/bin/nvim"
+alias vim="__init_nvm 2> /dev/null; $nvim_bin"
 
 export PATH="$PATH:$HOME/.rvm/bin"    # Add RVM to PATH for scripting
-export EDITOR="/usr/local/bin/nvim"   # whole lotta gang shit
-export VISUAL="/usr/local/bin/nvim"
+export EDITOR="$nvim_bin"
+export VISUAL="$nvim_bin"
 
 # vim in zsh
 set -o vi
