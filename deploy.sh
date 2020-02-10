@@ -103,13 +103,13 @@ function install_softwares {
   check_software tmux
   check_software vim
   check_software python3
-  pip3 install tmuxp
   check_software nvim
   if [[ $os = "linux" ]]; then
     check_software pip3
     pip3 install --user --upgrade setuptools
   fi
   pip3 install --user --upgrade pynvim
+  pip3 install --user --upgrade tmuxp
   check_software ruby
   check_software fasd
 }
