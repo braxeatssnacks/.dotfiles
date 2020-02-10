@@ -71,8 +71,9 @@ fi
 
 # -------------------------- python setup -------------------------------------- #
 
-# TODO: automate find local python3 site packages and add to $PATH
-export PATH="$PATH:$HOME/Library/Python/3.7/bin"
+python3_user_scripts_dir="$(python3 -c 'import sysconfig as _; print(_.get_path("scripts","posix_user"))')"
+if [[ ! "$PATH" =~ "$python3_user_scripts_dir" ]]; then
+  export PATH="$PATH:$python3_user_scripts_dir"
 
 # ---------------------------------------------------------------------------- #
 
