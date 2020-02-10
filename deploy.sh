@@ -110,7 +110,6 @@ function install_softwares {
   fi
   pip3 install --user --upgrade pynvim
   pip3 install --user --upgrade tmuxp
-  check_software ruby
   check_software fasd
 }
 
