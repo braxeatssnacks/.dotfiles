@@ -74,6 +74,7 @@ fi
 python3_user_scripts_dir="$(python3 -c 'import sysconfig as _; print(_.get_path("scripts","posix_user"))')"
 if [[ ! "$PATH" =~ "$python3_user_scripts_dir" ]]; then
   export PATH="$PATH:$python3_user_scripts_dir"
+fi
 
 # ---------------------------------------------------------------------------- #
 
