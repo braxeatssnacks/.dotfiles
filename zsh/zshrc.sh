@@ -33,6 +33,8 @@ source $OH_MY_ZSH/lib/key-bindings.zsh
 source $OH_MY_ZSH/lib/completion.zsh
 
 source $OH_MY_ZSH/themes/$ZSH_THEME.zsh-theme
+
+source $ZSH/plugins/scm_breeze/scm_breeze.sh
 source $ZSH/plugins/scm_breeze/scm_breeze.plugin.zsh
 source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
