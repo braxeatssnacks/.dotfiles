@@ -212,7 +212,7 @@ let g:ale_linters = {
   \'javascript': ['eslint'],
   \'javascriptreact': ['eslint','stylelint'],
   \'less': ['stylelint'],
-  \'python': ['black'],
+  \'python': ['flake8'],
   \'ruby': ['rubocop']
 \}
 let g:ale_linters_explicit = 1
