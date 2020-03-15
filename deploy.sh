@@ -110,6 +110,7 @@ function install_softwares {
   fi
   pip3 install --user --upgrade pynvim
   pip3 install --user --upgrade tmuxp
+  pip3 install --user --upgrade msgpack
   check_software fasd
 }
 

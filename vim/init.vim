@@ -57,8 +57,9 @@ call plug#begin('~/.vim/plugged')
   " git gutter
   Plug 'airblade/vim-gitgutter'
 
-  " git fugitive
+  " git fugitive & line helpers
   Plug 'tpope/vim-fugitive'
+  Plug 'ruanyl/vim-gh-line'
 
   " byobu-esque
   Plug 'bling/vim-airline'
@@ -100,10 +101,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'davidhalter/jedi-vim'
 
   " javascript
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-  Plug 'neoclide/vim-jsx-improve'
-  Plug 'moll/vim-node'
+  Plug 'MaxMEllon/vim-jsx-pretty'
   Plug 'digitaltoad/vim-pug'
+  Plug 'moll/vim-node'
+  Plug 'pangloss/vim-javascript'
+  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
@@ -198,18 +200,18 @@ augroup END
 " linting & formatting
 let g:ale_fixers = { 
   \'javascript': ['eslint'],
-  \'jsx': ['eslint'],
+  \'javascriptreact': ['eslint'],
   \'python': ['black'],
   \'ruby': ['rubocop']
 \}
 let g:ale_fix_on_save = 1
 " let g:ale_linter_aliases = {
-"   \'jsx': ['css', 'javascript']
+"   \'jsx': ['javascript', 'javascriptreact']
 " \}
 let g:ale_linters = {
-  \'less': ['stylelint'],
   \'javascript': ['eslint'],
-  \'jsx': ['eslint', 'stylelint'],
+  \'javascriptreact': ['eslint','stylelint'],
+  \'less': ['stylelint'],
   \'python': ['flake8'],
   \'ruby': ['rubocop']
 \}
@@ -251,6 +253,8 @@ set wildignore+=*.bmp,*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*.bz2
 " allow unsaved buffers to go into the background
 set hidden
+" real-time replacement
+set inccommand=nosplit
 
 " don't clutter cwd with backup and swap files
 set backupdir^=~/.vim/.backup
