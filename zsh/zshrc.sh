@@ -33,9 +33,6 @@ source $OH_MY_ZSH/lib/key-bindings.zsh
 source $OH_MY_ZSH/lib/completion.zsh
 
 source $OH_MY_ZSH/themes/$ZSH_THEME.zsh-theme
-
-source $ZSH/plugins/scm_breeze/scm_breeze.sh
-source $ZSH/plugins/scm_breeze/scm_breeze.plugin.zsh
 source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
@@ -62,7 +59,7 @@ if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   # prefix those commands with nvm init
   function __init_nvm {
     for cmd in "${__node_commands[@]}"; do unalias $cmd; done
-		\. "$NVM_DIR"/nvm.sh
+    \. "$NVM_DIR"/nvm.sh
     unset __node_commands
     unset -f __init_nvm
   }
@@ -105,6 +102,9 @@ alias cp="cp -i"         # Prompt before overwriting files via cp
 alias mv="mv -i"         # Prompt before overwriting files via mv
 alias ls="ls -AFG"       # Display all files, include hidden ones
 alias ll="ls -AFGl"
+
+# scm puff
+eval "$(scmpuff init -s)"
 
 # fuck ups
 # eval "$(thefuck --alias)"

@@ -112,6 +112,7 @@ function install_softwares {
   pip3 install --user --upgrade tmuxp
   pip3 install --user --upgrade msgpack
   check_software fasd
+  check_software scmpuff
 }
 
 function check_shell {
