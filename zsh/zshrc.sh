@@ -1,13 +1,14 @@
-# -------------------------- oh-my-zsh config -------------------------------- #
+# ------------------------ oh-my-zsh core config ------------------------------ #
 
-export ZSH="$DOTFILES/zsh"
-export OH_MY_ZSH="$ZSH/plugins/oh-my-zsh"
+export ZSHRC="$DOTFILES/zsh/zshrc.sh"
+export ZSH="$DOTFILES/zsh/plugins/oh-my-zsh"
 
 ZSH_THEME="refined"                 # prompt theme
 DISABLE_AUTO_TITLE="true"           # disable auto-setting terminal title
 COMPLETION_WAITING_DOTS="true"      # red dots whilst waiting for completion
 
 # oh-my-zsh plugin list
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/oh-my-zsh.sh
 plugins=(
   bundler
   brew
@@ -15,28 +16,38 @@ plugins=(
   osx
   rbenv
   ruby
-  fasd
   fancy-ctrl-z
+  git
 )
 
-autoload -U compinit
+autoload -U compaudit compinit
+fpath=($ZSH/lib/functions $ZSH/lib/completion $fpath)
+compinit
 
 # source oh-my-zsh plugins
 for plugin ($plugins); do
-  fpath=($OH_MY_ZSH/plugins/$plugin $fpath)
+  fpath=($ZSH/plugins/$plugin $fpath)
 done
 
-compinit
+source $ZSH/lib/completion.zsh
+source $ZSH/lib/functions.zsh
+source $ZSH/lib/history.zsh
+source $ZSH/lib/key-bindings.zsh
 
-source $OH_MY_ZSH/lib/history.zsh
-source $OH_MY_ZSH/lib/key-bindings.zsh
-source $OH_MY_ZSH/lib/completion.zsh
+source $ZSH/themes/$ZSH_THEME.zsh-theme
 
-source $OH_MY_ZSH/themes/$ZSH_THEME.zsh-theme
+for plugin ($plugins); do
+  if [ -f $ZSH/plugins/$plugin/$plugin.plugin.zsh ]; then
+    source $ZSH/plugins/$plugin/$plugin.plugin.zsh
+  fi
+done
 
-source $ZSH/plugins/scm_breeze/scm_breeze.sh
-source $ZSH/plugins/scm_breeze/scm_breeze.plugin.zsh
-source $ZSH/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# --------------------------- extensions ------------------------------------- #
+
+source $DOTFILES/zsh/plugins/scm_breeze/scm_breeze.sh
+source $DOTFILES/zsh/plugins/scm_breeze/scm_breeze.plugin.zsh
+
+source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_integration.zsh"
 
@@ -62,7 +73,7 @@ if [ -s "$NVM_DIR/nvm.sh" ] && [ ! "$(type -f __init_nvm)" = function ]; then
   # prefix those commands with nvm init
   function __init_nvm {
     for cmd in "${__node_commands[@]}"; do unalias $cmd; done
-		\. "$NVM_DIR"/nvm.sh
+    \. "$NVM_DIR"/nvm.sh
     unset __node_commands
     unset -f __init_nvm
   }
