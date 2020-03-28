@@ -54,7 +54,7 @@ test -e "$HOME/.iterm2_shell_integration.zsh" && source "$HOME/.iterm2_shell_int
 
 # -------------------------- node setup -------------------------------------- #
 
-export NVM_DIR="$ZSH/plugins/nvm"
+export NVM_DIR="$DOTFILES/zsh/plugins/nvm"
 
 # nvm slows shell init so defer nvm init until: npm, node, nvm, or a node-dependent command requires it
 # (https://www.growingwiththeweb.com/2018/01/slow-nvm-init.html)
