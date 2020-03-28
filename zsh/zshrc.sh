@@ -12,7 +12,6 @@ COMPLETION_WAITING_DOTS="true"      # red dots whilst waiting for completion
 plugins=(
   bundler
   brew
-  last-working-dir
   osx
   rbenv
   ruby
