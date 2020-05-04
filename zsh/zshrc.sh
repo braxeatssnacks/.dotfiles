@@ -43,8 +43,7 @@ done
 
 # --------------------------- extensions ------------------------------------- #
 
-source $DOTFILES/zsh/plugins/scm_breeze/scm_breeze.sh
-source $DOTFILES/zsh/plugins/scm_breeze/scm_breeze.plugin.zsh
+source $DOTFILES/zsh/plugins/index/index.plugin.zsh
 
 source $DOTFILES/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
