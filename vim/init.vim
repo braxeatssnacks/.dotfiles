@@ -62,6 +62,7 @@ call plug#begin('~/.vim/plugged')
 
   " git fugitive & line helpers
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
   Plug 'ruanyl/vim-gh-line'
 
   " byobu-esque
