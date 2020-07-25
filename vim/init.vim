@@ -86,14 +86,9 @@ call plug#begin('~/.vim/plugged')
   " nerdtree
   Plug 'scrooloose/nerdtree'
 
-  " supertab (for autocompletion)
-  Plug 'ervandew/supertab'
-
   " autocompletion
   if has('nvim')
-    silent !pip3 install pynvim
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'fishbullet/deoplete-ruby'
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
   else
     silent !pip3 install pynvim
     Plug 'Shougo/deoplete.nvim'
@@ -114,6 +109,10 @@ call plug#begin('~/.vim/plugged')
   Plug 'peitalin/vim-jsx-typescript'
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
+  " typscript
+  Plug 'ianks/vim-tsx'
+  Plug 'leafgarland/typescript-vim'
+
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
 
@@ -128,14 +127,39 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
+" coc extensions
+let g:coc_global_extensions = ['coc-tslint-plugin', 'coc-eslint', 'coc-tsserver', 'coc-emmet', 'coc-css', 'coc-html', 'coc-json', 'coc-yank', 'coc-prettier']
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+augroup typescript_register
+  autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+  autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+augroup END
+
+augroup json_comments
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+augroup END
+
 " allow autocompletion on all filetypes except txt
 let g:deoplete#enable_at_startup=1
 augroup deoplete_configs
   autocmd FileType tex call deoplete#custom#buffer_option('auto_complete', v:false)
 augroup END
-" Enter maps to completion
-let g:SuperTabCrMapping = 1
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.php,*.jsx"
