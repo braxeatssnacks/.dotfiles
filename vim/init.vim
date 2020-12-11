@@ -107,8 +107,11 @@ call plug#begin('~/.vim/plugged')
   " javascript
   Plug 'MaxMEllon/vim-jsx-pretty'
   Plug 'digitaltoad/vim-pug'
+  Plug 'jparise/vim-graphql'
+  Plug 'leafgarland/typescript-vim'
   Plug 'moll/vim-node'
   Plug 'pangloss/vim-javascript'
+  Plug 'peitalin/vim-jsx-typescript'
   Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
 
   " tmux
@@ -341,6 +344,11 @@ augroup qf_window
   autocmd FileType qf nnoremap <buffer> dd :call RemoveQFItem()<CR>
 augroup END
 
+" Refresh syntax highlighting on buffer enter
+augroup refreshsyntax_highlighting
+  autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+  autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+augroup END
 
 """""""""""""""""""""""" MACROS + REMAPS
 " leader key
