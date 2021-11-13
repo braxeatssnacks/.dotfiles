@@ -210,13 +210,13 @@ augroup nerdtree_configs
 augroup END
 
 " rainbow parentheses
-augroup parentheses_configs
-  autocmd!
-  autocmd VimEnter * RainbowParenthesesToggle
-  autocmd Syntax * RainbowParenthesesLoadRound
-  autocmd Syntax * RainbowParenthesesLoadSquare
-  autocmd Syntax * RainbowParenthesesLoadBraces
-augroup END
+" augroup parentheses_configs
+"   autocmd!
+"   autocmd VimEnter * RainbowParenthesesToggle
+"   autocmd Syntax * RainbowParenthesesLoadRound
+"   autocmd Syntax * RainbowParenthesesLoadSquare
+"   autocmd Syntax * RainbowParenthesesLoadBraces
+" augroup END
 
 " byobu style
 let g:airline_theme="base16"
@@ -454,3 +454,20 @@ endif
 
 " for posterity
 nnoremap <leader>vimrc :tabedit $MYVIMRC
+
+" load node modules
+set path=.,src
+set suffixesadd=.js,.jsx,.ts,.tsx,.json
+
+function! LoadMainNodeModule(fname)
+  let nodeModules = "./node_modules/"
+  let packageJsonPath = nodeModules . a:fname . "package.json"
+
+  if filereadable(packageJsonPath)
+      return nodeModules . a:fname . "/" . json_decode(join(readfile(packageJsonPath))).main
+  else
+      return nodeModules . a:fname
+  endif
+endfunction
+
+set includeexpr=LoadMainNodeModule(v:fname)
