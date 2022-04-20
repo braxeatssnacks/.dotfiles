@@ -101,7 +101,7 @@ call plug#begin('~/.vim/plugged')
   " nerdtree
   Plug 'scrooloose/nerdtree'
 
-  " autocompletion
+  " autocompletion & language server
   if has('nvim')
     Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
   else
