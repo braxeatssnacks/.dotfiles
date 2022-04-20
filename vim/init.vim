@@ -64,7 +64,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'townk/vim-autoclose'
 
   " commenting
-  Plug 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-commentary'
 
   " isolated view
   Plug 'chrisbra/NrrwRgn'
