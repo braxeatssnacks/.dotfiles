@@ -1,4 +1,4 @@
-" a nice lil' (neo)vim config
+" Nice lil' ("neo-"/"gui-" compatible) vim config
 " (requires python3 install)
 
 " safety first
@@ -34,6 +34,21 @@ function! RemoveQFItem()
   copen
 endfunction
 
+" Help `gf` resolve filepaths
+set path=.,src,node_modules
+set suffixesadd=.js,.jsx,.ts,.tsx
+function! LoadMainNodeModule(fname)
+    let nodeModules = "./node_modules/"
+    let packageJsonPath = nodeModules . a:fname . "/package.json"
+
+    if filereadable(packageJsonPath)
+        return nodeModules . a:fname . "/" . json_decode(join(readfile(packageJsonPath))).main
+    else
+        return nodeModules . a:fname
+    endif
+endfunction
+
+set includeexpr=LoadMainNodeModule(v:fname)
 
 """""""""""""""""""""""" PLUGINS
 set runtimepath^=~/.vim/plugin
@@ -49,7 +64,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'townk/vim-autoclose'
 
   " commenting
-  Plug 'tomtom/tcomment_vim'
+  Plug 'tpope/vim-commentary'
 
   " isolated view
   Plug 'chrisbra/NrrwRgn'
@@ -86,14 +101,9 @@ call plug#begin('~/.vim/plugged')
   " nerdtree
   Plug 'scrooloose/nerdtree'
 
-  " supertab (for autocompletion)
-  Plug 'ervandew/supertab'
-
-  " autocompletion
+  " autocompletion & language server
   if has('nvim')
-    silent !pip3 install pynvim
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    " Plug 'fishbullet/deoplete-ruby'
+    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
   else
     silent !pip3 install pynvim
     Plug 'Shougo/deoplete.nvim'
@@ -101,18 +111,16 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  " python
-  Plug 'davidhalter/jedi-vim'
+  " typscript
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
 
   " javascript
-  Plug 'MaxMEllon/vim-jsx-pretty'
-  Plug 'digitaltoad/vim-pug'
-  Plug 'jparise/vim-graphql'
-  Plug 'leafgarland/typescript-vim'
   Plug 'moll/vim-node'
   Plug 'pangloss/vim-javascript'
-  Plug 'peitalin/vim-jsx-typescript'
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+  Plug 'jparise/vim-graphql'
+  Plug 'yuezk/vim-js'
+  Plug 'MaxMEllon/vim-jsx-pretty'
 
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
@@ -120,22 +128,70 @@ call plug#begin('~/.vim/plugged')
   " buffer deletion w/ layout preservation
   Plug 'qpkorr/vim-bufkill'
 
-  " linting
-  Plug 'w0rp/ale'
-
   " testing
   Plug 'janko-m/vim-test'
 
 call plug#end()
 
+" coc extensions (:CocConfig)
+augroup coc_plugins
+  autocmd!
+  " Python projects (https://github.com/fannheyward/coc-pyright)
+  autocmd Filetype python let g:coc_global_extensions = ['coc-json', 'coc-yank', 'coc-pyright']
+  " TS/JS projects (https://github.com/neoclide/coc-tsserver)
+  autocmd Filetype javascriptreact,typescriptreact,javascript,typescript let g:coc_global_extensions = [
+    \'coc-tslint-plugin',
+    \'coc-eslint',
+    \'coc-tsserver',
+    \'coc-emmet',
+    \'coc-css',
+    \'coc-html',
+    \'coc-json',
+    \'coc-yank',
+    \'coc-prettier'
+    \]
+augroup END
+
+augroup coc_workspace_roots
+  autocmd!
+  autocmd Filetype python let b:coc_root_patterns = ['.git', 'requirements.txt']
+  autocmd Filetype javascriptreact,typescriptreact,javascript,typescript let b:coc_root_patterns = [
+    \'.git',
+    \'package.json'
+    \]
+augroup END
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+augroup typescript_register
+  autocmd!
+  autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
+  autocmd BufNewFile,BufRead *.tsx,*.jsx setlocal filetype=typescriptreact
+augroup END
+
+augroup json_comments
+  autocmd!
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+augroup END
+
 " allow autocompletion on all filetypes except txt
 let g:deoplete#enable_at_startup=1
 augroup deoplete_configs
+  autocmd!
   autocmd FileType tex call deoplete#custom#buffer_option('auto_complete', v:false)
 augroup END
-" Enter maps to completion
-let g:SuperTabCrMapping = 1
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " allow closetags
 let g:closetag_filenames = "*.html,*.xhtml,*.phtml,*.xml,*.php,*.jsx"
@@ -159,17 +215,10 @@ let g:ctrlp_custom_ignore = {
 " nerdtree configs
 let NERDTreeRespectWildIgnore=1
 augroup nerdtree_configs
+  autocmd!
   autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
   autocmd StdinReadPre * let s:std_in=1
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-augroup END
-
-" rainbow parentheses
-augroup parentheses_configs
-  autocmd VimEnter * RainbowParenthesesToggle
-  autocmd Syntax * RainbowParenthesesLoadRound
-  autocmd Syntax * RainbowParenthesesLoadSquare
-  autocmd Syntax * RainbowParenthesesLoadBraces
 augroup END
 
 " byobu style
@@ -197,38 +246,6 @@ if executable('ag')
   " configure ack.vim to use ag
   let g:ackprg = 'ag --vimgrep --smart-case'
 endif
-
-" tern
-augroup tern_js_config
-  au!
-  au CompleteDone * pclose
-augroup END
-
-" linting & formatting
-let g:ale_fixers = { 
-  \'javascript': ['eslint'],
-  \'javascriptreact': ['eslint'],
-  \'python': ['black'],
-  \'ruby': ['rubocop']
-\}
-let g:ale_fix_on_save = 1
-" let g:ale_linter_aliases = {
-"   \'jsx': ['javascript', 'javascriptreact']
-" \}
-let g:ale_linters = {
-  \'javascript': ['eslint'],
-  \'javascriptreact': ['eslint','stylelint'],
-  \'less': ['stylelint'],
-  \'python': ['flake8'],
-  \'ruby': ['rubocop']
-\}
-let g:ale_linters_explicit = 1
-let g:ale_set_highlights = 0
-let g:airline#extensions#ale#enabled = 1
-" let g:ale_sign_error = '😡'
-" let g:ale_sign_warning = '🤔'
-highlight clear ALEErrorSign
-highlight clear ALEWarningSign
 
 " testing strategy
 let test#strategy = 'vimux'
@@ -260,8 +277,11 @@ set wildignore+=*.bmp,*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*.bz2
 " allow unsaved buffers to go into the background
 set hidden
-" real-time replacement
-set inccommand=nosplit
+" neovim specific config
+if has('nvim')
+  " real-time replacement
+  set inccommand=nosplit
+endif
 
 " don't clutter cwd with backup and swap files
 set backupdir^=~/.vim/.backup
@@ -283,6 +303,7 @@ set shiftwidth=2
 set expandtab
 " automatic config on filetype
 augroup filetype_configs
+  autocmd!
   " ... not for makefiles tho
   autocmd FileType make setlocal noexpandtab
   autocmd FileType makefile setlocal noexpandtab
@@ -331,6 +352,7 @@ highlight link vimrc_todo Todo
 
 " automatic commands run on sys task
 augroup sys_tasks
+  autocmd!
   " remove trailing space on save unless b:noStripWhitespace
   autocmd FileType vim let b:noStripWhitespace=1
   autocmd BufWritePre * call StripTrailingWhitespace()
@@ -341,11 +363,13 @@ augroup END
 " quickfix window context
 command! RemoveQFItem :call RemoveQFItem()
 augroup qf_window
+  autocmd!
   autocmd FileType qf nnoremap <buffer> dd :call RemoveQFItem()<CR>
 augroup END
 
 " Refresh syntax highlighting on buffer enter
 augroup refreshsyntax_highlighting
+  autocmd!
   autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
   autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
 augroup END
@@ -411,6 +435,7 @@ if has('nvim')
   " terminal
   tnoremap <Esc> <C-\><C-n>
   augroup terminal_tasks
+    autocmd!
     " remove line numbers in terminal
     autocmd TermOpen * setlocal nonumber norelativenumber
     autocmd TermOpen * startinsert
@@ -427,5 +452,42 @@ if has("gui_macvim")
   set fuoptions=maxvert,maxhorz
 endif
 
-" for posterity
+" empower quick hops to this file for posterity
 nnoremap <leader>vimrc :tabedit $MYVIMRC
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" rainbow parentheses
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+augroup parentheses_configs
+  autocmd VimEnter * RainbowParenthesesToggle
+  autocmd Syntax * RainbowParenthesesLoadRound
+  autocmd Syntax * RainbowParenthesesLoadSquare
+  autocmd Syntax * RainbowParenthesesLoadBraces
+augroup END
