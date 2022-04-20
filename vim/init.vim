@@ -282,8 +282,11 @@ set wildignore+=*.bmp,*.png,*.jpg,*.jpeg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*.bz2
 " allow unsaved buffers to go into the background
 set hidden
-" real-time replacement
-set inccommand=nosplit
+" neovim specific config
+if has('nvim')
+  " real-time replacement
+  set inccommand=nosplit
+endif
 
 " don't clutter cwd with backup and swap files
 set backupdir^=~/.vim/.backup
