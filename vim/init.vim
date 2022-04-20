@@ -139,7 +139,7 @@ augroup coc_plugins
   " Python projects (https://github.com/fannheyward/coc-pyright)
   autocmd Filetype python let g:coc_global_extensions = ['coc-json', 'coc-yank', 'coc-pyright']
   " TS/JS projects (https://github.com/neoclide/coc-tsserver)
-  autocmd Filetype javascriptreact,javascript let g:coc_global_extensions = [
+  autocmd Filetype javascriptreact,typescriptreact,javascript,typescript let g:coc_global_extensions = [
     \'coc-tslint-plugin',
     \'coc-eslint',
     \'coc-tsserver',
@@ -155,8 +155,10 @@ augroup END
 augroup coc_workspace_roots
   autocmd!
   autocmd Filetype python let b:coc_root_patterns = ['.git', 'requirements.txt']
-  autocmd Filetype javascriptreact let b:coc_root_patterns = ['.git', 'package.json']
-  autocmd Filetype javascript let b:coc_root_patterns = ['.git', 'package.json']
+  autocmd Filetype javascriptreact,typescriptreact,javascript,typescript let b:coc_root_patterns = [
+    \'.git',
+    \'package.json'
+    \]
 augroup END
 
 " use <tab> for trigger completion and navigate to the next complete item
