@@ -111,22 +111,16 @@ call plug#begin('~/.vim/plugged')
     Plug 'roxma/vim-hug-neovim-rpc'
   endif
 
-  " python
-  Plug 'davidhalter/jedi-vim'
+  " typscript
+  Plug 'leafgarland/typescript-vim'
+  Plug 'peitalin/vim-jsx-typescript'
 
   " javascript
-  Plug 'MaxMEllon/vim-jsx-pretty'
-  Plug 'digitaltoad/vim-pug'
-  Plug 'jparise/vim-graphql'
-  Plug 'leafgarland/typescript-vim'
   Plug 'moll/vim-node'
   Plug 'pangloss/vim-javascript'
-  Plug 'peitalin/vim-jsx-typescript'
-  Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-
-  " typscript
-  Plug 'ianks/vim-tsx'
-  Plug 'leafgarland/typescript-vim'
+  Plug 'jparise/vim-graphql'
+  Plug 'yuezk/vim-js'
+  Plug 'MaxMEllon/vim-jsx-pretty'
 
   " tmux
   Plug 'christoomey/vim-tmux-navigator'
@@ -140,7 +134,6 @@ call plug#begin('~/.vim/plugged')
 call plug#end()
 
 " coc extensions
-
 augroup coc_plugins
   autocmd!
   autocmd Filetype python let g:coc_global_extensions = ['coc-json', 'coc-yank', 'coc-python']
@@ -181,7 +174,7 @@ inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 augroup typescript_register
   autocmd!
   autocmd BufNewFile,BufRead *.ts setlocal filetype=typescript
-  autocmd BufNewFile,BufRead *.tsx setlocal filetype=typescript.tsx
+  autocmd BufNewFile,BufRead *.tsx,*.jsx setlocal filetype=typescriptreact
 augroup END
 
 augroup json_comments
@@ -258,12 +251,6 @@ if executable('ag')
   " configure ack.vim to use ag
   let g:ackprg = 'ag --vimgrep --smart-case'
 endif
-
-" tern
-augroup tern_js_config
-  autocmd!
-  autocmd CompleteDone * pclose
-augroup END
 
 " testing strategy
 let test#strategy = 'vimux'
