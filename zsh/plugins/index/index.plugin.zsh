@@ -6,9 +6,9 @@ function c {
   if [[ "$1" == "" ]]; then
     subdir=""
   else
-    subdir="$(ls "$GIT_REPO_DIR" | grep "$1" | head -n 1)"
+    subdir="$(/bin/ls "$GIT_REPO_DIR" | grep "$1" | head -n 1)"
   fi
-  cd
+  cd "$GIT_REPO_DIR/$subdir"
 }
 
 # complete with "~/Projects" prefix
