@@ -1,4 +1,4 @@
-" a nice lil' (neo)vim config
+" Nice lil' ("neo-"/"gui-" compatible) vim config
 " (requires python3 install)
 
 " safety first
