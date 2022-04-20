@@ -217,15 +217,6 @@ augroup nerdtree_configs
   autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
 augroup END
 
-" rainbow parentheses
-" augroup parentheses_configs
-"   autocmd!
-"   autocmd VimEnter * RainbowParenthesesToggle
-"   autocmd Syntax * RainbowParenthesesLoadRound
-"   autocmd Syntax * RainbowParenthesesLoadSquare
-"   autocmd Syntax * RainbowParenthesesLoadBraces
-" augroup END
-
 " byobu style
 let g:airline_theme="base16"
 let g:airline#extensions#tabline#formatter='jsformatter'
@@ -457,12 +448,11 @@ if has("gui_macvim")
   set fuoptions=maxvert,maxhorz
 endif
 
-" for posterity
+" empower quick hops to this file for posterity
 nnoremap <leader>vimrc :tabedit $MYVIMRC
 
 " Use K to show documentation in preview window
 nnoremap <silent> K :call <SID>show_documentation()<CR>
-
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -470,3 +460,30 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+" rainbow parentheses
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['black',       'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ['red',         'firebrick3'],
+    \ ]
+let g:rbpt_max = 16
+augroup parentheses_configs
+  autocmd VimEnter * RainbowParenthesesToggle
+  autocmd Syntax * RainbowParenthesesLoadRound
+  autocmd Syntax * RainbowParenthesesLoadSquare
+  autocmd Syntax * RainbowParenthesesLoadBraces
+augroup END
