@@ -133,10 +133,12 @@ call plug#begin('~/.vim/plugged')
 
 call plug#end()
 
-" coc extensions
+" coc extensions (:CocConfig)
 augroup coc_plugins
   autocmd!
-  autocmd Filetype python let g:coc_global_extensions = ['coc-json', 'coc-yank', 'coc-python']
+  " Python projects (https://github.com/fannheyward/coc-pyright)
+  autocmd Filetype python let g:coc_global_extensions = ['coc-json', 'coc-yank', 'coc-pyright']
+  " TS/JS projects (https://github.com/neoclide/coc-tsserver)
   autocmd Filetype javascriptreact,javascript let g:coc_global_extensions = [
     \'coc-tslint-plugin',
     \'coc-eslint',
