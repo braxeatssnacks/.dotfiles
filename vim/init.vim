@@ -464,19 +464,13 @@ endif
 " for posterity
 nnoremap <leader>vimrc :tabedit $MYVIMRC
 
-" load node modules
-set path=.,src
-set suffixesadd=.js,.jsx,.ts,.tsx,.json
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-function! LoadMainNodeModule(fname)
-  let nodeModules = "./node_modules/"
-  let packageJsonPath = nodeModules . a:fname . "package.json"
-
-  if filereadable(packageJsonPath)
-      return nodeModules . a:fname . "/" . json_decode(join(readfile(packageJsonPath))).main
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
   else
-      return nodeModules . a:fname
+    call CocAction('doHover')
   endif
 endfunction
-
-set includeexpr=LoadMainNodeModule(v:fname)
