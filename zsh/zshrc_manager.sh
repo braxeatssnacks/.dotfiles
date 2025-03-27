@@ -18,14 +18,16 @@ else
   echo "tmux not installed. Run ${DOTFILES/#$HOME/~}/deploy.sh to configure dependencies..."
 fi
 
-# implicit update of submodules in subshell if on master branch
-(
-  cd "$DOTFILES"
-  if [[ $(git symbolic-ref HEAD | sed -e 's/^refs\/heads\///') == 'master' ]]; then
-    git pull -q
-    git submodule update --init --recursive -q
-  fi
-)
+# implicit update of submodules if on master branch & no unstaged changes
+if [[ "$(git -C $DOTFILES symbolic-ref HEAD | sed -e 's/^refs\/heads\///')" != 'master' ]]; then
+  [[ -v "$DEBUG" ]] && echo "On non-master .dotfiles branch. Skipping updates..."
+elif [[ -n "$(git -C $DOTFILES status --porcelain)" ]]; then
+  [[ -v "$DEBUG" ]] && echo "Unstaged .dotfiles changes detected. Skipping updates..."
+else
+  [[ -v "$DEBUG" ]] && echo "Pulling down latest configuration..."
+  git pull -q
+  git submodule update --init --recursive -q
+fi
 
 source "$DOTFILES/zsh/zshrc.sh"
 source "$DOTFILES/zsh/ext.sh"
