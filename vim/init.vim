@@ -349,6 +349,11 @@ syntax on
 highlight LineNr ctermfg=yellow
 highlight Comment ctermfg=grey
 
+highlight Normal guibg=none
+highlight NonText guibg=none
+highlight Normal ctermbg=none
+highlight NonText ctermbg=none
+
 " cursor
 set cursorline
 highlight CursorLine cterm=NONE
