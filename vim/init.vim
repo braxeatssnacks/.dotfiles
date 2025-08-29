@@ -103,7 +103,7 @@ call plug#begin('~/.vim/plugged')
 
   " autocompletion & language server
   if has('nvim')
-    Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+    Plug 'neoclide/coc.nvim', {'do': 'npm install --frozen-lockfile'}
   else
     silent !pip3 install pynvim
     Plug 'Shougo/deoplete.nvim'
